@@ -1,31 +1,142 @@
-version: '2'
+version: '3.8'
 
 services:
-  nginx:
-    build:
-      context: docker/nginx
-    ports:
-      - "8080:80"
+  postgres:
+    container_name: ac-postgres
+    image: postgres:12.4-alpine
+    restart: on-failure
+    env_file:
+      - .env
     volumes:
-      - ./:/var/www
-      - ./docker/nginx/site.conf:/etc/nginx/conf.d/default.conf
+      - db-data:/var/lib/postgresql/data:rw
+    ports:
+      - "${DB_PORT}:5432"
     networks:
       - internal
-    depends_on:
-      - php-fpm
 
-  php-fpm:
+  rabbitmq:
+    container_name: ac-rabbitmq
     build:
-      context: docker/php-fpm
+      context: .
+      dockerfile: docker/rabbitmq/Dockerfile
+    ports:
+      - "${RABBITMQ_PRIMARY_PORT}:5672"
+      - "${RABBITMQ_SECONDARY_PORT}:15672"
     volumes:
-      - ./:/var/www
+      - rabbitmq:/var/lib/rabbitmq:cached
+    networks:
+      - internal
+
+  php:
+    container_name: ac-php
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    restart: on-failure
     environment:
+      APP_ENV: dev
+      APP_DEBUG: 1
+      PHP_DATE_TIMEZONE: ${PHP_DATE_TIMEZONE:-UTC}
       XDEBUG_CONFIG: "remote_host=192.168.220.0"
       PHP_IDE_CONFIG: "serverName=architecture-company"
+    depends_on:
+      - postgres
+      - elasticsearch
+    volumes:
+      - .:/app:rw,cached
+      - var:/app/var:rw
     networks:
       - internal
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  nginx:
+    container_name: ac-nginx
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    restart: on-failure
+    depends_on:
+      - php
+    volumes:
+      - ./public:/app/public:ro
+    ports:
+      - "${NGINX_PORT}:80"
+    networks:
+      - internal
+
+  php-consumer:
+    container_name: ac-php-consumer
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: docker/php-consumer/Dockerfile
+    depends_on:
+      - php
+      - rabbitmq
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    networks:
+      - internal
+
+  elasticsearch:
+    container_name: ac-elasticsearch-consumer
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.4
+    environment:
+      - "discovery.type=single-node"
+      - "bootstrap.memory_lock=true"
+      - "ES_JAVA_OPTS=-Xms1G -Xmx1G"
+      - "xpack.security.enabled=false"
+      - "http.cors.enabled=true"
+      - "http.cors.allow-origin=*"
+    ports:
+      - "${ELASTICSEARCH_PORT}:9200"
+    networks:
+      - internal
+
+  elasticsearch-head:
+    container_name: ac-elasticsearch-head
+    depends_on:
+      - elasticsearch
+    image: tobias74/elasticsearch-head:6
+    ports:
+      - "${ELASTICSEARCH_HEAD_PORT}:9100"
+    networks:
+      - internal
+
+  #  logstash:
+  #      container_name: logstash
+  #      image: docker.elastic.co/logstash/logstash:7.16.2
+  #      depends_on:
+  #        - elasticsearch
+  #      volumes:
+  #        - ./elk/logstash/pipelines.yml:/usr/share/logstash/config/pipelines.yml:cached
+  #        - ./elk/logstash/conf.d:/etc/logstash/conf.d:cached
+  #        - ./logs/symfony:/var/www/symfony/var/log:cached
+  #        - ./logs/nginx:/var/log/nginx:cached
+  #      networks:
+  #        - internal
+
+  kibana:
+    container_name: ac-kibana
+    depends_on:
+      - elasticsearch
+    image: kibana:7.17.4
+    environment:
+      SERVER_NAME: localhost
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    ports:
+      - "${KIBANA_PORT}:5601"
+    networks:
+      - internal
+
+volumes:
+  db-data:
+  var:
+  rabbitmq:
+
 
 networks:
   internal:

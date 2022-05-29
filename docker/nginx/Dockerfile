@@ -1,5 +1,7 @@
-FROM nginx
+ARG NGINX_VERSION=1.18
 
-ADD ./default.conf /etc/nginx/conf.d/default.conf
+FROM nginx:${NGINX_VERSION}-alpine AS app_nginx
 
-WORKDIR /var/www
+COPY docker/nginx/conf.d/default.conf /etc/nginx/conf.d/
+
+WORKDIR /app/public
