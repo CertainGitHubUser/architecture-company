@@ -1,0 +1,11 @@
+services:
+
+  _defaults:
+    autowire: true
+    public: true
+    autoconfigure: true
+
+  App\Module\Apartment\Application\Application\Controller\Apartment\CreateApartmentController:
+    public: true
+    calls:
+        - [ setContainer, [ '@service_container' ]]

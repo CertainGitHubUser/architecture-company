@@ -1,0 +1,18 @@
+services:
+
+  _defaults:
+    autowire: true
+    public: true
+    autoconfigure: true
+
+  App\Module\Apartment\Domain\Model\Address\Repository\AddressRepositoryInterface:
+    class: App\Module\Apartment\Infrastructure\Repository\Address\DoctrineAddressRepository
+
+  App\Module\Apartment\Domain\Model\Apartment\Repository\ApartmentRepositoryInterface:
+    class: App\Module\Apartment\Infrastructure\Repository\Apartment\DoctrineApartmentRepository
+
+  App\Module\Apartment\Domain\Model\ApartmentAddress\Repository\ApartmentAddressRepositoryInterface:
+    class: App\Module\Apartment\Infrastructure\Repository\ApartmentAddress\DoctrineApartmentAddressRepository
+
+  App\Module\Apartment\Domain\Model\Room\Repository\RoomRepositoryInterface:
+    class: App\Module\Apartment\Infrastructure\Repository\Room\DoctrineRoomRepository

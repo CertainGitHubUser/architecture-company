@@ -6,9 +6,9 @@ use App\Module\Common\Domain\ValueObject\NotEmptyString;
 
 interface AddressDTOInterface
 {
-    public function getAddressId(): AddressId;
+    public function getId(): AddressId;
 
-    public function setAddressId($addressId): void;
+    public function setId($id): void;
 
     public function getCity(): NotEmptyString;
 

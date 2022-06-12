@@ -8,4 +8,7 @@ return [
     Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],
     Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
     FOS\ElasticaBundle\FOSElasticaBundle::class => ['all' => true],
+
+    // AC modules
+    App\Module\Apartment\Infrastructure\ACApartmentBundle::class => ['all' => true],
 ];

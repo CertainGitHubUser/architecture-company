@@ -13,5 +13,5 @@ framework:
             # sync: 'sync://'
 
         routing:
-             'App\Messanger\SampleMessage': async
+#             'App\Messanger\SampleMessage': async
 

@@ -28,6 +28,7 @@ services:
       - internal
 
   php:
+    #TODO rename to the ac-php-app
     container_name: ac-php
     build:
       context: .
