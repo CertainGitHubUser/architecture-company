@@ -1,0 +1,23 @@
+services:
+
+  _defaults:
+    autowire: true
+    public: true
+
+  App\Module\Apartment\Domain\Model\Address\Factory\AddressesCollectionFactoryInterface:
+    class: App\Module\Apartment\Infrastructure\Factory\Address\AddressesCollectionFactory
+
+  App\Module\Apartment\Domain\Model\Address\Factory\AddressFactoryInterface:
+    class: App\Module\Apartment\Infrastructure\Factory\Address\AddressFactory
+
+  App\Module\Apartment\Domain\Model\Apartment\Factory\ApartmentsCollectionFactoryInterface:
+    class: App\Module\Apartment\Infrastructure\Factory\Apartment\ApartmentsCollectionFactory
+
+  App\Module\Apartment\Domain\Model\ApartmentAddress\Factory\ApartmentAddressesCollectionFactoryInterface:
+    class: App\Module\Apartment\Infrastructure\Factory\ApartmentAddress\ApartmentAddressesCollectionFactory
+
+  App\Module\Apartment\Domain\Model\ApartmentAddress\Factory\ApartmentAddressFactoryInterface:
+    class: App\Module\Apartment\Infrastructure\Factory\ApartmentAddress\ApartmentAddressFactory
+
+  App\Module\Apartment\Domain\Model\Room\Factory\RoomFactoryInterface:
+    class: App\Module\Apartment\Infrastructure\Factory\Room\RoomFactory

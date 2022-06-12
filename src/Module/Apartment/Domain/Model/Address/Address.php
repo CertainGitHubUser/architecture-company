@@ -21,7 +21,7 @@ final class Address
 
     public function id(): AddressId
     {
-        return $this->dto->getAddressId();
+        return $this->dto->getId();
     }
 
     public function city(): NotEmptyString
