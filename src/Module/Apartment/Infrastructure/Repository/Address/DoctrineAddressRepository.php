@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Module\Apartment\Infrastructure\Repository\Address;
 
 use App\Module\Apartment\Domain\Model\Address\Address;
-use App\Module\Apartment\Domain\Model\Address\AddressId;
 use App\Module\Apartment\Domain\Model\Address\AddressIdsCollection;
 use App\Module\Apartment\Domain\Model\Address\Exception\AddressesWithExposedIdsNotFoundException;
 use App\Module\Apartment\Domain\Model\Address\Factory\AddressesCollectionFactoryInterface;
