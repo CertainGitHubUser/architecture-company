@@ -8,6 +8,9 @@ services:
   App\Module\Apartment\Domain\Model\Address\Repository\AddressRepositoryInterface:
     class: App\Module\Apartment\Infrastructure\Repository\Address\DoctrineAddressRepository
 
+  ac.apartment.repository.apartment_repository:
+    alias: App\Module\Apartment\Domain\Model\Apartment\Repository\ApartmentRepositoryInterface
+
   App\Module\Apartment\Domain\Model\Apartment\Repository\ApartmentRepositoryInterface:
     class: App\Module\Apartment\Infrastructure\Repository\Apartment\DoctrineApartmentRepository
 

@@ -33,4 +33,9 @@ final class RoomsCollection
     {
         return $this->apartmentIdRoomMap[$apartmentId->value()];
     }
+
+    public function all(): array
+    {
+        return $this->rooms;
+    }
 }

@@ -9,6 +9,7 @@ use App\Module\Apartment\Domain\Model\Address\Latitude;
 use App\Module\Apartment\Domain\Model\Address\Longitude;
 use App\Module\Apartment\Domain\Model\Address\ZIPCode;
 use App\Module\Common\Domain\ValueObject\NotEmptyString;
+use App\Module\Common\Domain\ValueObject\UUID;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,6 +24,11 @@ class AddressEntity implements AddressDTOInterface
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="string", length=36)
+     */
+    private $exposedId;
 
     /**
      * @ORM\Column(type="string", length=128)
@@ -72,6 +78,16 @@ class AddressEntity implements AddressDTOInterface
     public function setId($id): void
     {
         $this->id = AddressId::fromString($id)->value();
+    }
+
+    public function getExposedId(): UUID
+    {
+        return UUID::fromString($this->exposedId);
+    }
+
+    public function setExposedId($exposedId): void
+    {
+        $this->exposedId = UUID::fromString($exposedId)->value();
     }
 
     public function getCity(): NotEmptyString

@@ -10,6 +10,9 @@ services:
   App\Module\Apartment\Domain\Model\Address\Factory\AddressFactoryInterface:
     class: App\Module\Apartment\Infrastructure\Factory\Address\AddressFactory
 
+  App\Module\Apartment\Domain\Model\Address\Factory\AddressIdsCollectionFactoryInterface:
+    class: App\Module\Apartment\Infrastructure\Factory\Address\AddressIdsCollectionFactory
+
   App\Module\Apartment\Domain\Model\Apartment\Factory\ApartmentsCollectionFactoryInterface:
     class: App\Module\Apartment\Infrastructure\Factory\Apartment\ApartmentsCollectionFactory
 

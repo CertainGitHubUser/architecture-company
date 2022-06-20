@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Module\Apartment\Domain\Model\Address;
 
 use App\Module\Common\Domain\ValueObject\NotEmptyString;
+use App\Module\Common\Domain\ValueObject\UUID;
 
 final class Address
 {
@@ -22,6 +23,11 @@ final class Address
     public function id(): AddressId
     {
         return $this->dto->getId();
+    }
+
+    public function exposedId(): UUID
+    {
+        return $this->dto->getExposedId();
     }
 
     public function city(): NotEmptyString

@@ -21,7 +21,7 @@ final class ApartmentAddressesCollection
         $this->makeApartmentIdMap();
     }
 
-    public function toArray(): array
+    public function all(): array
     {
         return $this->apartmentAddresses;
     }
@@ -36,7 +36,7 @@ final class ApartmentAddressesCollection
         $this->apartmentIdMap = [];
 
         foreach ($this->apartmentAddresses as $apartmentAddress) {
-            $this->apartmentIdMap[$apartmentAddress->getApartmentId()->value()][] = $apartmentAddress;
+            $this->apartmentIdMap[$apartmentAddress->getDTO()->getApartmentId()->value()][] = $apartmentAddress;
         }
     }
 }

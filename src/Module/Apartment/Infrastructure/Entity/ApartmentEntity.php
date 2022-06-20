@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Infrastructure\Entity;
 
-use App\Module\Apartment\Application\Application\DTO\Apartment\CreateApartmentRawDTO;
+use App\Module\Apartment\Application\DTO\Apartment\CreateApartmentRawDTO;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentDTOInterface;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentType;
@@ -103,9 +103,9 @@ class ApartmentEntity implements ApartmentDTOInterface
      */
     private $hasHood;
 
-    private $addresses;
+    private array $addresses;
 
-    private $rooms = [];
+    private array $rooms;
 
     public function __construct(CreateApartmentRawDTO $rawDTO)
     {
