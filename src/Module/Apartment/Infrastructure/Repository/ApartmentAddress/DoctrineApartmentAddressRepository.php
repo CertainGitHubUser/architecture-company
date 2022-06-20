@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Module\Apartment\Infrastructure\Repository\ApartmentAddress;
 
 use App\Module\Apartment\Domain\Model\ApartmentAddress\ApartmentAddress;
+use App\Module\Apartment\Domain\Model\ApartmentAddress\ApartmentAddressesCollection;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\Factory\ApartmentAddressesCollectionFactoryInterface;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\Factory\ApartmentAddressFactoryInterface;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\Repository\ApartmentAddressRepositoryInterface;
@@ -20,8 +21,8 @@ final class DoctrineApartmentAddressRepository implements ApartmentAddressReposi
     private ApartmentAddressesCollectionFactoryInterface $apartmentAddressesCollectionFactory;
 
     public function __construct(
-        EntityManagerInterface              $manager,
-        ApartmentAddressFactoryInterface    $apartmentAddressFactory,
+        EntityManagerInterface                       $manager,
+        ApartmentAddressFactoryInterface             $apartmentAddressFactory,
         ApartmentAddressesCollectionFactoryInterface $apartmentAddressesCollectionFactory
     )
     {
@@ -30,6 +31,15 @@ final class DoctrineApartmentAddressRepository implements ApartmentAddressReposi
 
         $this->apartmentAddressFactory = $apartmentAddressFactory;
         $this->apartmentAddressesCollectionFactory = $apartmentAddressesCollectionFactory;
+    }
+
+    public function saveCollection(ApartmentAddressesCollection $collection): void
+    {
+        $addresses = $collection->all();
+
+        foreach ($addresses as $address) {
+            $this->save($address);
+        }
     }
 
     public function save(ApartmentAddress $apartmentAddress): void

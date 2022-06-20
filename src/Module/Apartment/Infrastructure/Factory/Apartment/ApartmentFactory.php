@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Infrastructure\Factory\Apartment;
 
-use App\Module\Apartment\Application\Application\DTO\Apartment\CreateApartmentRawDTO;
+use App\Module\Apartment\Application\DTO\Apartment\CreateApartmentRawDTO;
 use App\Module\Apartment\Domain\Model\Apartment\Apartment;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentDTOInterface;
 use App\Module\Apartment\Domain\Model\Apartment\Factory\ApartmentFactoryInterface;

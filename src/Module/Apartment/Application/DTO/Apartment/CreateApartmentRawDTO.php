@@ -1,9 +1,8 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Module\Apartment\Application\Application\DTO\Apartment;
+namespace App\Module\Apartment\Application\DTO\Apartment;
 
-use App\Module\Apartment\Application\Application\DTO\Room\CreateRoomRawDTO;
 use App\Module\Common\Application\DTO\InitializeFromArrayTrait;
 
 final class CreateApartmentRawDTO
@@ -16,7 +15,6 @@ final class CreateApartmentRawDTO
 
     public string $builtIn;
 
-    /** @var CreateRoomRawDTO[] */
     public array $rooms;
 
     public int $ownerId;
@@ -39,17 +37,13 @@ final class CreateApartmentRawDTO
 
     public bool $hasHood;
 
+    public array $rawRequest;
+
     public static function initialize(array $request): CreateApartmentRawDTO
     {
         $dto = self::fromArray($request);
-
-        //TODO make different collection
-
-        $dto->rooms  = [];
-
-        foreach ($request['rooms']  as $room) {
-            $dto->rooms[] = CreateRoomRawDTO::fromArray($room);
-        }
+        $dto->rawRequest = $request;
+        $dto->rooms = $request['rooms'];
 
         return $dto;
     }

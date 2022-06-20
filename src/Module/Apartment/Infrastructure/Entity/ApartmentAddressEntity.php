@@ -8,7 +8,7 @@ use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\ApartmentAddressDTOInterface;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\ApartmentAddressId;
 use Doctrine\ORM\Mapping as ORM;
-
+// TODO create apartmentid  addressid unique index
 /**
  * @ORM\Entity()
  * @ORM\Table(name="`apartment_address`")

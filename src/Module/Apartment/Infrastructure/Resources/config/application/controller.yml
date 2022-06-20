@@ -5,7 +5,7 @@ services:
     public: true
     autoconfigure: true
 
-  App\Module\Apartment\Application\Application\Controller\Apartment\CreateApartmentController:
+  App\Module\Apartment\Application\Controller\Apartment\CreateApartmentController:
     public: true
     calls:
         - [ setContainer, [ '@service_container' ]]

@@ -3,12 +3,17 @@
 namespace App\Module\Apartment\Domain\Model\Address;
 
 use App\Module\Common\Domain\ValueObject\NotEmptyString;
+use App\Module\Common\Domain\ValueObject\UUID;
 
 interface AddressDTOInterface
 {
     public function getId(): AddressId;
 
     public function setId($id): void;
+
+    public function getExposedId(): UUID;
+
+    public function setExposedId($exposedId): void;
 
     public function getCity(): NotEmptyString;
 

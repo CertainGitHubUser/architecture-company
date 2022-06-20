@@ -2,7 +2,7 @@
 
 namespace App\Module\Apartment\Domain\Model\Apartment\Factory;
 
-use App\Module\Apartment\Application\Application\DTO\Apartment\CreateApartmentRawDTO;
+use App\Module\Apartment\Application\DTO\Apartment\CreateApartmentRawDTO;
 use App\Module\Apartment\Domain\Model\Apartment\Apartment;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentDTOInterface;
 
