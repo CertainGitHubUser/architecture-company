@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Infrastructure\Factory\Room;
 
-use App\Module\Apartment\Application\UseCase\Room\CreateRoomsCollection\CreateApartmentRoomsRequest;
+use App\Module\Apartment\Application\UseCase\Room\CreateApartmentRooms\CreateApartmentRoomsRequest;
 use App\Module\Apartment\Domain\Model\Common\Square;
 use App\Module\Apartment\Domain\Model\Room\Factory\RoomFactoryInterface;
 use App\Module\Apartment\Domain\Model\Room\Factory\RoomsCollectionFactoryInterface;
@@ -17,6 +17,17 @@ final class RoomsCollectionFactory implements RoomsCollectionFactoryInterface
     public function __construct(RoomFactoryInterface $roomFactory)
     {
         $this->roomFactory = $roomFactory;
+    }
+
+    public function fromQuery(array $items): RoomsCollection
+    {
+        $rooms = [];
+
+        foreach ($items as $item) {
+            $rooms[] = $this->roomFactory->fromEntity($item);
+        }
+
+        return new RoomsCollection($rooms);
     }
 
     public function fromCreateApartmentRoomsRequest(CreateApartmentRoomsRequest $request): RoomsCollection

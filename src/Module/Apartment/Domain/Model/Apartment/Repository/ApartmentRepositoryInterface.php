@@ -16,7 +16,11 @@ interface ApartmentRepositoryInterface
     /** @throws ApartmentWithExposedIdNotFoundException */
     public function getByExposedId(UUID $exposedId): Apartment;
 
+    public function getIdByExposedId(UUID $exposedId): ApartmentId;
+
     public function hasId(ApartmentId $apartmentId): bool;
 
     public function save(Apartment $apartment): void;
+
+    public function remove(Apartment $apartment): void;
 }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Module\Common\Domain\ValueObject;
 
-final class UUIDsCollection
+final class UUIDsCollection implements \JsonSerializable
 {
     /** @var UUID[] */
     private array $UUIDs;
@@ -41,5 +41,10 @@ final class UUIDsCollection
     public function count(): UnsignedInt
     {
         return new UnsignedInt(count($this->UUIDs));
+    }
+
+    public function jsonSerialize()
+    {
+        return [$this->UUIDs];
     }
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Infrastructure\Repository\ApartmentAddress;
 
+use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\ApartmentAddress;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\ApartmentAddressesCollection;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\Factory\ApartmentAddressesCollectionFactoryInterface;
@@ -33,6 +34,13 @@ final class DoctrineApartmentAddressRepository implements ApartmentAddressReposi
         $this->apartmentAddressesCollectionFactory = $apartmentAddressesCollectionFactory;
     }
 
+    public function getByApartmentId(ApartmentId $id): ApartmentAddressesCollection
+    {
+        $result = $this->doctrineRepository->findBy(['apartmentId' => $id->value()]);
+
+        return $this->apartmentAddressesCollectionFactory->fromQuery($result);
+    }
+
     public function saveCollection(ApartmentAddressesCollection $collection): void
     {
         $addresses = $collection->all();
@@ -45,6 +53,15 @@ final class DoctrineApartmentAddressRepository implements ApartmentAddressReposi
     public function save(ApartmentAddress $apartmentAddress): void
     {
         $this->manager->persist($apartmentAddress->getDto());
+        $this->manager->flush();
+    }
+
+    public function removeCollection(ApartmentAddressesCollection $collection): void
+    {
+        foreach ($collection->all() as $item) {
+            $this->manager->remove($item->getDTO());
+        }
+
         $this->manager->flush();
     }
 }

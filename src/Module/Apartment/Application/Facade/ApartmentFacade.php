@@ -3,11 +3,16 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Application\Facade;
 
-use App\Module\Apartment\Application\DTO\Apartment\CreateApartmentRawDTO;
-use App\Module\Apartment\Application\DTO\Room\CreateApartmentRoomsRawDTO;
+use App\Module\Apartment\Application\DTO\Apartment\ApartmentRawDTO;
+use App\Module\Apartment\Application\DTO\Room\ApartmentRoomsRawDTO;
+use App\Module\Apartment\Application\DTO\Room\EditApartmentRoomsRawDTO;
 use App\Module\Apartment\Application\UseCase\Apartment\CreateApartment\CreateApartmentRequest;
+use App\Module\Apartment\Application\UseCase\Apartment\EditApartment\EditApartmentRequest;
+use App\Module\Apartment\Application\UseCase\Apartment\GetApartment\GetApartmentRequest;
+use App\Module\Apartment\Application\UseCase\Apartment\RemoveApartment\RemoveApartmentRequest;
 use App\Module\Apartment\Application\UseCase\ApartmentAddress\CreateApartmentAddress\CreateApartmentAddressesRequest;
-use App\Module\Apartment\Application\UseCase\Room\CreateRoomsCollection\CreateApartmentRoomsRequest;
+use App\Module\Apartment\Application\UseCase\Room\CreateApartmentRooms\CreateApartmentRoomsRequest;
+use App\Module\Apartment\Application\UseCase\Room\EditApartmentRooms\EditApartmentRoomsRequest;
 use App\Module\Apartment\Domain\Model\Apartment\Apartment;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
 use App\Module\Apartment\Domain\Model\Apartment\Exception\Repository\ApartmentWithIdNotFoundException;
@@ -32,9 +37,37 @@ final class ApartmentFacade
 
     public function createApartment(array $apartmentData)
     {
-        $request = new CreateApartmentRequest(CreateApartmentRawDTO::initialize($apartmentData));
+        $request = new CreateApartmentRequest(ApartmentRawDTO::initialize($apartmentData));
 
         $service = $this->kernel->getContainer()->get('ac.apartment.use_case.apartment.create_apartment');
+
+        $service->handle($request);
+    }
+
+    public function editApartment(string $exposedId, array $apartmentData): void
+    {
+        $request = new EditApartmentRequest(ApartmentRawDTO::initialize($apartmentData), $exposedId);
+
+        $service = $this->kernel->getContainer()->get('ac.apartment.use_case.apartment.edit_apartment');
+
+        $service->handle($request);
+    }
+
+    public function getApartmentByExposedId(string $exposedId): Apartment
+    {
+        $request = new GetApartmentRequest($exposedId);
+
+        $service = $this->kernel->getContainer()->get('ac.apartment.use_case.apartment.get_apartment');
+
+        return $service->handle($request);
+    }
+
+
+    public function removeApartmentByExposedId(string $exposedId): void
+    {
+        $request = new RemoveApartmentRequest($exposedId);
+
+        $service = $this->kernel->getContainer()->get('ac.apartment.use_case.apartment.remove_apartment');
 
         $service->handle($request);
     }
@@ -45,14 +78,31 @@ final class ApartmentFacade
         return $this->getApartmentRepository()->get(new ApartmentId($apartmentId));
     }
 
+    public function hasApartmentWithId(int $apartmentId): bool
+    {
+        return $this->getApartmentRepository()->hasId(new ApartmentId($apartmentId));
+    }
+
     public function createApartmentRooms(int $apartmentId, array $rooms)
     {
         $request = new CreateApartmentRoomsRequest(
             new ApartmentId($apartmentId),
-            CreateApartmentRoomsRawDTO::initialize($rooms)
+            ApartmentRoomsRawDTO::initialize($rooms)
         );
 
         $service = $this->kernel->getContainer()->get('ac.apartment.use_case.room.create_apartment_room');
+
+        $service->handle($request);
+    }
+
+    public function editApartmentRooms(int $apartmentId, array $rooms)
+    {
+        $request = new EditApartmentRoomsRequest(
+            new ApartmentId($apartmentId),
+            EditApartmentRoomsRawDTO::initialize($rooms)
+        );
+
+        $service = $this->kernel->getContainer()->get('ac.apartment.use_case.room.edit_apartment_room');
 
         $service->handle($request);
     }

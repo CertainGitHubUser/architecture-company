@@ -6,7 +6,7 @@ namespace App\Module\Common\Domain\ValueObject;
 use App\Module\Common\Domain\Exception\InvalidUUIDException;
 use Ramsey\Uuid\Uuid as UUIDPackage;
 
-class UUID extends AbstractValueObject
+class UUID extends AbstractValueObject implements \JsonSerializable
 {
     protected function initialConversion($value)
     {
@@ -23,5 +23,10 @@ class UUID extends AbstractValueObject
     public static function generateNew(): self
     {
         return new self(UUIDPackage::fromBytes(random_bytes(16)));
+    }
+
+    public function jsonSerialize()
+    {
+        return ['id' => $this->value];
     }
 }

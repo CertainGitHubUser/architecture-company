@@ -8,6 +8,7 @@ use App\Module\Apartment\Domain\Model\ApartmentAddress\ApartmentAddress;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\ApartmentAddressesCollection;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\Factory\ApartmentAddressesCollectionFactoryInterface;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\Factory\ApartmentAddressFactoryInterface;
+use App\Module\Apartment\Infrastructure\Entity\ApartmentAddressEntity;
 
 final class ApartmentAddressesCollectionFactory implements ApartmentAddressesCollectionFactoryInterface
 {
@@ -16,6 +17,19 @@ final class ApartmentAddressesCollectionFactory implements ApartmentAddressesCol
     public function __construct(ApartmentAddressFactoryInterface $apartmentAddressFactory)
     {
         $this->apartmentAddressFactory = $apartmentAddressFactory;
+    }
+
+    /** @param ApartmentAddressEntity[] $items */
+    public function fromQuery(array $items): ApartmentAddressesCollection
+    {
+        /** @var ApartmentAddress[] $apartmentAddresses */
+        $apartmentAddresses = [];
+
+        foreach ($items as $item) {
+            $apartmentAddresses[] = $this->apartmentAddressFactory->fromEntity($item);
+        }
+
+        return new ApartmentAddressesCollection($apartmentAddresses);
     }
 
     public function fromArgs(ApartmentId $apartmentId, AddressIdsCollection $addressIdsCollection): ApartmentAddressesCollection

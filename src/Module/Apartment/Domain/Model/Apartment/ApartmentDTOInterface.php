@@ -2,11 +2,12 @@
 
 namespace App\Module\Apartment\Domain\Model\Apartment;
 
-use App\Module\Apartment\Domain\Model\ApartmentAddress\ApartmentAddressesCollection;
+use App\Module\Apartment\Application\DTO\Apartment\ApartmentRawDTO;
 use App\Module\Apartment\Domain\Model\Common\Square;
 use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
 use App\Module\Common\Domain\ValueObject\UnsignedInt;
 use App\Module\Common\Domain\ValueObject\UUID;
+use App\Module\Common\Domain\ValueObject\UUIDsCollection;
 use App\Module\Price\Domain\Model\Currency\Currency;
 use App\Module\Price\Domain\Model\Price\Price;
 use App\Module\User\Domain\Model\User\UserId;
@@ -35,6 +36,8 @@ interface ApartmentDTOInterface
 
     public function getRooms(): RoomsCollection;
 
+    public function addRooms(RoomsCollection $roomsCollection): void;
+
     public function getUserId(): UserId;
 
     public function setUserId($userId): void;
@@ -59,7 +62,9 @@ interface ApartmentDTOInterface
 
     public function setCurrency($currency): void;
 
-    public function getAddresses(): ApartmentAddressesCollection;
+    public function getExposedAddressIds(): UUIDsCollection;
+
+    public function addExposedAddressIds(UUIDsCollection $addressIdsCollection): void;
 
     public function hasGas(): bool;
 
@@ -72,4 +77,6 @@ interface ApartmentDTOInterface
     public function hasHood(): bool;
 
     public function setHasHood($hasHood): void;
+
+    public function update(ApartmentRawDTO $dto): void;
 }

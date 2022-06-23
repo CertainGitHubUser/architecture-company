@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Infrastructure\Entity;
 
+use App\Module\Apartment\Application\DTO\Room\EditApartmentRoomRawDTO;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
 use App\Module\Apartment\Domain\Model\Common\Square;
 use App\Module\Apartment\Domain\Model\Room\RoomDTOInterface;
 use App\Module\Apartment\Domain\Model\Room\RoomId;
 use App\Module\Apartment\Domain\Model\Room\RoomType;
 use App\Module\Common\Domain\ValueObject\UUID;
+use App\Module\Common\Infrastructure\Entity\EntityTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,6 +19,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class RoomEntity implements RoomDTOInterface
 {
+    use EntityTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -92,5 +96,10 @@ class RoomEntity implements RoomDTOInterface
     public function setSquare($square): void
     {
         $this->square = Square::fromString($square)->value();
+    }
+
+    public function update(EditApartmentRoomRawDTO $dto): void
+    {
+        $this->_update($dto);
     }
 }
