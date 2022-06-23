@@ -6,7 +6,7 @@ trait InitializeFromArrayTrait
 {
     public static function fromArray(array $rawData): self
     {
-        $ret = new self();
+        $ret = new static();
 
         foreach ($rawData as $key => $value) {
             if (property_exists($ret, $key)) {

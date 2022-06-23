@@ -3,20 +3,16 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Infrastructure\Entity;
 
-use App\Module\Apartment\Application\DTO\Apartment\CreateApartmentRawDTO;
+use App\Module\Apartment\Application\DTO\Apartment\ApartmentRawDTO;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentDTOInterface;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentType;
 use App\Module\Apartment\Domain\Model\Apartment\HeatingType;
-use App\Module\Apartment\Domain\Model\ApartmentAddress\ApartmentAddressesCollection;
 use App\Module\Apartment\Domain\Model\Common\Square;
-use App\Module\Apartment\Domain\Model\Room\Room;
-use App\Module\Apartment\Domain\Model\Room\RoomDTOInterface;
-use App\Module\Apartment\Domain\Model\Room\RoomId;
 use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
-use App\Module\Apartment\Domain\Model\Room\RoomType;
 use App\Module\Common\Domain\ValueObject\UnsignedInt;
 use App\Module\Common\Domain\ValueObject\UUID;
+use App\Module\Common\Domain\ValueObject\UUIDsCollection;
 use App\Module\Common\Infrastructure\Entity\EntityTrait;
 use App\Module\Price\Domain\Model\Currency\Currency;
 use App\Module\Price\Domain\Model\Price\Price;
@@ -103,13 +99,18 @@ class ApartmentEntity implements ApartmentDTOInterface
      */
     private $hasHood;
 
-    private array $addresses;
+    private UUIDsCollection $exposedAddressIds;
 
-    private array $rooms;
+    private RoomsCollection $rooms;
 
-    public function __construct(CreateApartmentRawDTO $rawDTO)
+    public function __construct(ApartmentRawDTO $rawDTO)
     {
         $this->_initialize($rawDTO);
+    }
+
+    public function update(ApartmentRawDTO $dto): void
+    {
+        $this->_update($dto);
     }
 
     public function getId(): ApartmentId
@@ -164,78 +165,12 @@ class ApartmentEntity implements ApartmentDTOInterface
 
     public function getRooms(): RoomsCollection
     {
-        $class = new class implements RoomDTOInterface {
-            private $id;
+        return $this->rooms;
+    }
 
-            private $exposedId;
-            private $apartmentId;
-
-            private $roomType;
-
-            private $square;
-
-            public function __construct()
-            {
-                $this->id = 1;
-                $this->exposedId = \Ramsey\Uuid\Uuid::fromBytes(random_bytes(16));
-                $this->roomType = RoomType::ROOM_TYPE_GYM;
-                $this->square = 1;
-            }
-
-
-            public function getId(): RoomId
-            {
-                return RoomId::fromString($this->id);
-            }
-
-            public function setId($id): void
-            {
-                $this->id = RoomId::fromString($id)->value();
-            }
-
-            public function getExposedId(): UUID
-            {
-                return UUID::fromString($this->exposedId);
-            }
-
-            public function setExposedId($exposedId): void
-            {
-                $this->exposedId = UUID::fromString($exposedId)->value();
-            }
-
-            public function getApartmentId(): ApartmentId
-            {
-                return ApartmentId::fromString($this->apartmentId);
-            }
-
-            public function setApartmentId($apartmentId): void
-            {
-                $this->apartmentId = ApartmentId::fromString($apartmentId)->value();
-            }
-
-            public function getRoomType(): RoomType
-            {
-                return RoomType::fromString($this->roomType);
-            }
-
-            public function setRoomType($roomType): void
-            {
-                $this->roomType = RoomType::fromString($roomType)->value();
-            }
-
-            public function getSquare(): Square
-            {
-                return Square::fromString($this->square);
-            }
-
-            public function setSquare($square): void
-            {
-                $this->square = Square::fromString($square)->value();
-            }
-        };
-
-
-        return new RoomsCollection([new Room(new RoomEntity($class))]);
+    public function addRooms(RoomsCollection $roomsCollection): void
+    {
+        $this->rooms = $roomsCollection;
     }
 
     public function getUserId(): UserId
@@ -298,9 +233,14 @@ class ApartmentEntity implements ApartmentDTOInterface
         $this->currency = Currency::fromString($currency)->value();
     }
 
-    public function getAddresses(): ApartmentAddressesCollection
+    public function getExposedAddressIds(): UUIDsCollection
     {
-        return new ApartmentAddressesCollection([]);
+        return $this->exposedAddressIds;
+    }
+
+    public function addExposedAddressIds(UUIDsCollection $addressIdsCollection): void
+    {
+        $this->exposedAddressIds = $addressIdsCollection;
     }
 
     public function hasGas(): bool

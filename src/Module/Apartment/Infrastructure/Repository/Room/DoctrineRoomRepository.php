@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Infrastructure\Repository\Room;
 
+use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
 use App\Module\Apartment\Domain\Model\Room\Factory\RoomFactoryInterface;
 use App\Module\Apartment\Domain\Model\Room\Factory\RoomsCollectionFactoryInterface;
 use App\Module\Apartment\Domain\Model\Room\Repository\RoomRepositoryInterface;
@@ -21,8 +22,8 @@ final class DoctrineRoomRepository implements RoomRepositoryInterface
     private RoomsCollectionFactoryInterface $roomsCollectionFactory;
 
     public function __construct(
-        EntityManagerInterface $manager,
-        RoomFactoryInterface $roomFactory,
+        EntityManagerInterface          $manager,
+        RoomFactoryInterface            $roomFactory,
         RoomsCollectionFactoryInterface $roomsCollectionFactory
     )
     {
@@ -31,6 +32,13 @@ final class DoctrineRoomRepository implements RoomRepositoryInterface
 
         $this->roomFactory = $roomFactory;
         $this->roomsCollectionFactory = $roomsCollectionFactory;
+    }
+
+    public function getByApartmentId(ApartmentId $apartmentId): RoomsCollection
+    {
+        $result = $this->doctrineRepository->findBy(['apartmentId' => $apartmentId->value()]);
+
+        return $this->roomsCollectionFactory->fromQuery($result);
     }
 
     public function saveCollection(RoomsCollection $collection): void
@@ -46,5 +54,20 @@ final class DoctrineRoomRepository implements RoomRepositoryInterface
     {
         $this->manager->persist($room->getDto());
         $this->manager->flush();
+    }
+
+    public function removeCollection(RoomsCollection $roomsCollection): void
+    {
+        foreach ($roomsCollection->all() as $room) {
+            $this->manager->remove($room->getDTO());
+        }
+
+        $this->manager->flush();
+    }
+
+    public function remove(Room $room): void
+    {
+             $this->manager->remove($room->getDTO());
+             $this->manager->flush();
     }
 }

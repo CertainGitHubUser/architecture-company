@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Module\Apartment\Application\UseCase\ApartmentAddress\CreateApartmentAddress;
 
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
+use App\Module\Common\Domain\Factory\UUIDsCollectionFactory;
 use App\Module\Common\Domain\ValueObject\UUID;
 use App\Module\Common\Domain\ValueObject\UUIDsCollection;
 
@@ -17,13 +18,7 @@ final class CreateApartmentAddressesRequest
     public function __construct(int $apartmentId, array $exposedAddressIds)
     {
         $this->apartmentId = new ApartmentId($apartmentId);
-        $UUIDs = [];
-        //TODO make static uuids collection factory
-        foreach ($exposedAddressIds as $exposedAddressId) {
-            $UUIDs[] = new UUID($exposedAddressId);
-        }
-
-        $this->exposedAddressIds = new UUIDsCollection($UUIDs);
+        $this->exposedAddressIds = UUIDsCollectionFactory::fromStringArray($exposedAddressIds);
     }
 
     public function getApartmentId(): ApartmentId

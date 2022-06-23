@@ -6,11 +6,13 @@ namespace App\Module\Apartment\Infrastructure\Repository\Address;
 use App\Module\Apartment\Domain\Model\Address\Address;
 use App\Module\Apartment\Domain\Model\Address\AddressIdsCollection;
 use App\Module\Apartment\Domain\Model\Address\Exception\AddressesWithExposedIdsNotFoundException;
+use App\Module\Apartment\Domain\Model\Address\Exception\AddressesWithIdsNotFoundException;
 use App\Module\Apartment\Domain\Model\Address\Factory\AddressesCollectionFactoryInterface;
 use App\Module\Apartment\Domain\Model\Address\Factory\AddressFactoryInterface;
 use App\Module\Apartment\Domain\Model\Address\Factory\AddressIdsCollectionFactoryInterface;
 use App\Module\Apartment\Domain\Model\Address\Repository\AddressRepositoryInterface;
 use App\Module\Apartment\Infrastructure\Entity\AddressEntity;
+use App\Module\Common\Domain\Factory\UUIDsCollectionFactory;
 use App\Module\Common\Domain\ValueObject\UUIDsCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
@@ -37,6 +39,21 @@ final class DoctrineAddressRepository implements AddressRepositoryInterface
         $this->addressFactory = $addressFactory;
         $this->addressesCollectionFactory = $addressesCollectionFactory;
         $this->addressIdsCollectionFactory = $addressIdsCollectionFactory;
+    }
+
+    public function getExposedIdsByIds(AddressIdsCollection $addressIdsCollection): UUIDsCollection
+    {
+        $qb = $this->manager->createQueryBuilder();
+        $qb->addSelect('e.exposedId')
+            ->from(AddressEntity::class, 'e')
+            ->add('where', $qb->expr()->in('e.id', $addressIdsCollection->toStringArray()));
+        $result = $qb->getQuery()->getResult();
+
+        if ($addressIdsCollection->count()->value() !== count($result)) {
+            throw new AddressesWithIdsNotFoundException($addressIdsCollection->toString());
+        }
+
+        return UUIDsCollectionFactory::fromQuery($result);
     }
 
     public function getIdsByExposedIds(UUIDsCollection $UUIDsCollection): AddressIdsCollection

@@ -4,8 +4,9 @@ declare(strict_types=1);
 namespace App\Module\Apartment\Domain\Model\Room;
 
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
+use App\Module\Common\Domain\ValueObject\UUID;
 
-final class RoomsCollection
+final class RoomsCollection implements \JsonSerializable
 {
     /** @var Room[] */
     private array $rooms;
@@ -13,11 +14,15 @@ final class RoomsCollection
     /** @var array <apartmentId, Room[]> */
     private array $apartmentIdRoomMap;
 
+    /** @var array <exposedId, Room> */
+    private array $exposedIdRoomMap;
+
     /** @var Room[] */
     public function __construct(array $rooms)
     {
         $this->rooms = $rooms;
         $this->makeApartmentIdRoomMap();
+        $this->makeExposedIdRoomMap();
     }
 
     private function makeApartmentIdRoomMap(): void
@@ -29,13 +34,35 @@ final class RoomsCollection
         }
     }
 
+    private function makeExposedIdRoomMap(): void
+    {
+        $this->exposedIdRoomMap = [];
+
+        foreach ($this->rooms as $room) {
+            $this->exposedIdRoomMap[$room->exposedId()->value()] = $room;
+        }
+    }
+
     public function getByApartmentId(ApartmentId $apartmentId): array
     {
         return $this->apartmentIdRoomMap[$apartmentId->value()];
     }
 
+    public function getByExposedId(UUID $exposedId): Room
+    {
+        //TODO throw exception
+        return $this->exposedIdRoomMap[$exposedId->value()];
+    }
+
     public function all(): array
     {
         return $this->rooms;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            $this->rooms
+        ];
     }
 }

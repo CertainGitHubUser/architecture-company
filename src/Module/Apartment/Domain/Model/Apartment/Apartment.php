@@ -8,11 +8,13 @@ use App\Module\Apartment\Domain\Model\Common\Square;
 use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
 use App\Module\Common\Domain\ValueObject\UnsignedInt;
 use App\Module\Common\Domain\ValueObject\UUID;
+use App\Module\Common\Domain\ValueObject\UUIDsCollection;
 use App\Module\Price\Domain\Model\Currency\Currency;
 use App\Module\Price\Domain\Model\Price\Price;
 use App\Module\User\Domain\Model\User\User;
+use App\Module\User\Domain\Model\User\UserId;
 
-final class Apartment
+final class Apartment implements \JsonSerializable
 {
     private ApartmentDTOInterface $dto;
 
@@ -56,9 +58,9 @@ final class Apartment
         return $this->dto->getRooms();
     }
 
-    public function owner(): User
+    public function ownerId(): UserId
     {
-        return $this->dto->getOwner();
+        return $this->dto->getUserId();
     }
 
     public function price(): Price
@@ -86,9 +88,9 @@ final class Apartment
         return $this->dto->getCurrency();
     }
 
-    public function addresses(): ApartmentAddressesCollection
+    public function addresses(): UUIDsCollection
     {
-        return $this->dto->getAddresses();
+        return $this->dto->getExposedAddressIds();
     }
 
     public function hasGas(): bool
@@ -104,5 +106,27 @@ final class Apartment
     public function hasHood(): bool
     {
         return $this->dto->hasHood();
+    }
+
+    public function jsonSerialize()
+    {
+       return [
+           'id' => $this->exposedId()->value(),
+           'square' => $this->square()->value(),
+           'floor' => $this->floor()->value(),
+           //TODO change format
+           'builtIn' => $this->builtIn()->format(\DateTimeImmutable::ATOM) ,
+           'rooms' => $this->rooms(),
+           'ownerId' => $this->ownerId()->value(),
+           'price' => $this->price()->value(),
+           'apartmentType' => $this->apartmentType()->value(),
+           'heatingType' => $this->heatingType()->value(),
+           'rentalPrice' => $this->rentalPrice()->value(),
+           'currency' => $this->currency()->value(),
+           'hasGas' => $this->hasGas(),
+           'hasWater' => $this->hasWater(),
+           'hasHood' => $this->hasHood(),
+           'addresses' => $this->addresses(),
+       ];
     }
 }

@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Application\DTO\Room;
 
-final class CreateApartmentRoomsRawDTO
+class ApartmentRoomsRawDTO
 {
-    /** @var CreateApartmentRoomRawDTO[]  */
+    /** @var ApartmentRoomRawDTO[]  */
     public array $rooms;
 
     public static function initialize(array $rooms)
@@ -15,7 +15,7 @@ final class CreateApartmentRoomsRawDTO
         $dto->rooms = [];
 
         foreach ($rooms  as $room) {
-            $dto->rooms[] = CreateApartmentRoomRawDTO::fromArray($room);
+            $dto->rooms[] = ApartmentRoomRawDTO::fromArray($room);
         }
 
         return $dto;

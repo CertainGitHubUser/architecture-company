@@ -7,7 +7,7 @@ use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
 use App\Module\Apartment\Domain\Model\Common\Square;
 use App\Module\Common\Domain\ValueObject\UUID;
 
-final class Room
+final class Room implements \JsonSerializable
 {
     private RoomDTOInterface $dto;
 
@@ -44,5 +44,15 @@ final class Room
     public function square(): Square
     {
         return $this->dto->getSquare();
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->exposedId()->value(),
+            'apartmentId' => $this->apartmentId()->value(),
+            'roomType' => $this->roomType()->value(),
+            'square' => $this->square()->value(),
+        ];
     }
 }

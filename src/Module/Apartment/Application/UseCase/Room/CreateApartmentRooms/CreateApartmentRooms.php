@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Module\Apartment\Application\UseCase\Room\CreateRoomsCollection;
+namespace App\Module\Apartment\Application\UseCase\Room\CreateApartmentRooms;
 
 use App\Module\Apartment\Application\Facade\ApartmentFacade;
 use App\Module\Apartment\Domain\Model\Room\Factory\RoomsCollectionFactoryInterface;
@@ -22,7 +22,7 @@ final class CreateApartmentRooms
     public function handle(CreateApartmentRoomsRequest $request): void
     {
         ApartmentFacade::instance()->getApartment($request->getApartmentId()->value());
-        $collection = $this->collectionFactory->fromCreateApartmentRoomsRequest($request);
+        $collection = $this->collectionFactory->fromApartmentRoomsRequest($request);
         $this->repository->saveCollection($collection);
     }
 }

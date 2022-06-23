@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Infrastructure\Factory\Room;
 
+use App\Module\Apartment\Application\DTO\Room\EditApartmentRoomRawDTO;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
 use App\Module\Apartment\Domain\Model\Common\Square;
 use App\Module\Apartment\Domain\Model\Room\Factory\RoomFactoryInterface;
@@ -16,11 +17,21 @@ final class RoomFactory implements RoomFactoryInterface
 {
     public function fromArgs(ApartmentId $apartmentId, Square $square, RoomType $roomType): Room
     {
-        $room = new RoomEntity();
+        $room = new RoomEntity;
         $room->setApartmentId($apartmentId->value());
         $room->setExposedId(UUID::generateNew()->value());
         $room->setSquare($square->value());
         $room->setRoomType($roomType->value());
+
+        return $this->fromEntity($room);
+    }
+
+    public function editApartmentRoomRawDTO(EditApartmentRoomRawDTO $dto): Room
+    {
+        $room = new RoomEntity;
+        $room->setExposedId($dto->exposedId);
+        $room->setSquare($dto->square);
+        $room->setRoomType($dto->roomType);
 
         return $this->fromEntity($room);
     }
