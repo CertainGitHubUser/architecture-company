@@ -11,4 +11,5 @@ return [
 
     // AC modules
     App\Module\Apartment\Infrastructure\ACApartmentBundle::class => ['all' => true],
+    FriendsOfBehat\SymfonyExtension\Bundle\FriendsOfBehatSymfonyExtensionBundle::class => ['all' => true]
 ];
