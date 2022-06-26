@@ -1,0 +1,14 @@
+default:
+  autoload:
+    '': '%paths.base%'
+  suites:
+    apartment_module:
+      paths: [ '%paths.base%/../../../src/Module/Apartment/Tests/Behat/features' ]
+      contexts:
+        - App\Module\Apartment\Tests\Behat\Contexts\ApartmentContext
+      tags: "@apartment_module"
+
+  extensions:
+    FriendsOfBehat\SymfonyExtension:
+      kernel:
+        environment: test
