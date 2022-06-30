@@ -11,6 +11,9 @@
     "behat/transliterator": {
         "version": "v1.5.0"
     },
+    "behatch/contexts": {
+        "version": "3.3.0"
+    },
     "brick/math": {
         "version": "0.9.3"
     },
@@ -130,6 +133,9 @@
         "files": [
             "config/packages/fos_elastica.yaml"
         ]
+    },
+    "justinrainbow/json-schema": {
+        "version": "5.2.12"
     },
     "laminas/laminas-code": {
         "version": "4.5.1"

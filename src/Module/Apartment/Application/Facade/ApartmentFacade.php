@@ -30,6 +30,7 @@ final class ApartmentFacade
 
     public static function instance(): self
     {
+        /** @var KernelInterface $app */
         global $app;
 
         return new self($app);
