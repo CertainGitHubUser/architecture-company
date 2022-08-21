@@ -5,6 +5,7 @@ namespace App\Module\Apartment\Application\Controller\Apartment;
 
 use App\Module\Apartment\Application\Facade\ApartmentFacade;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +20,11 @@ class CreateApartmentController extends AbstractController
      */
     public function create(Request $request): JsonResponse
     {
-        ApartmentFacade::instance()->createApartment($request->toArray());
+        try {
+            ApartmentFacade::instance()->createApartment($request->toArray());
+        } catch (\Throwable $e) {
+            throw new BadRequestException($e->getMessage(), JsonResponse::HTTP_BAD_REQUEST);
+        }
 
         return new JsonResponse([], JsonResponse::HTTP_CREATED);
     }

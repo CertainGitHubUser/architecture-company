@@ -41,6 +41,13 @@ final class DoctrineApartmentAddressRepository implements ApartmentAddressReposi
         return $this->apartmentAddressesCollectionFactory->fromQuery($result);
     }
 
+    public function addressesAreAvailable(ApartmentAddressesCollection $collection): bool
+    {
+        $result = $this->doctrineRepository->findBy(['addressId' => $collection->getAllAddressIdsAsStringArray()]);
+
+        return empty($result);
+    }
+
     public function saveCollection(ApartmentAddressesCollection $collection): void
     {
         $addresses = $collection->all();

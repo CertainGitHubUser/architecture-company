@@ -1,4 +1,4 @@
-ARG PHP_VERSION=7.4.25
+ARG PHP_VERSION=7.4.30
 
 FROM php:7.4-fpm-alpine AS app_php
 
@@ -19,7 +19,7 @@ RUN docker-php-source extract \
     && docker-php-ext-install pgsql pdo_pgsql \
     && apk del postgresql-libs libsasl db \
     # Instaling pecl modules
-	&& pecl install apcu xdebug-3.0.4 \
+	&& pecl install apcu xdebug-3.1.5 \
     # Enable pecl modules
     && docker-php-ext-enable apcu opcache xdebug \
     # Installing intl
@@ -63,7 +63,9 @@ RUN set -eux; \
 
 RUN set -eux \
 	&& mkdir -p var/cache var/log \
-	&& composer dump-autoload --classmap-authoritative
+	&& composer dump-autoload --classmap-authoritative \
+
+RUN chmod 777 -R var
 
 VOLUME ${WORKDIR}/var
 

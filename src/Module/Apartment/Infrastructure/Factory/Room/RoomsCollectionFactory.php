@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Infrastructure\Factory\Room;
 
-use App\Module\Apartment\Application\UseCase\Room\CreateApartmentRooms\CreateApartmentRoomsRequest;
+use App\Module\Apartment\Application\DTO\Room\ApartmentRoomsRawDTO;
+use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
 use App\Module\Apartment\Domain\Model\Common\Square;
 use App\Module\Apartment\Domain\Model\Room\Factory\RoomFactoryInterface;
 use App\Module\Apartment\Domain\Model\Room\Factory\RoomsCollectionFactoryInterface;
@@ -30,13 +31,24 @@ final class RoomsCollectionFactory implements RoomsCollectionFactoryInterface
         return new RoomsCollection($rooms);
     }
 
-    public function fromCreateApartmentRoomsRequest(CreateApartmentRoomsRequest $request): RoomsCollection
+    public function fromCreateApartmentRawDTO(array $items): RoomsCollection
     {
         $rooms = [];
 
-        foreach ($request->getDTO()->rooms as $room) {
+        foreach ($items as $item) {
+            $rooms[] = $this->roomFactory->fromCreateApartmentRawDTO(new Square($item['square']), new RoomType($item['roomType']));
+        }
+
+        return new RoomsCollection($rooms);
+    }
+
+    public function fromArgs(ApartmentRoomsRawDTO $dto, ApartmentId $apartmentId): RoomsCollection
+    {
+        $rooms = [];
+
+        foreach ($dto->rooms as $room) {
             $rooms[] = $this->roomFactory->fromArgs(
-                $request->getApartmentId(),
+                $apartmentId,
                 new Square($room->square),
                 new RoomType($room->roomType)
             );

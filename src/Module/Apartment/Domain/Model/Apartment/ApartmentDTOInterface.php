@@ -3,8 +3,10 @@
 namespace App\Module\Apartment\Domain\Model\Apartment;
 
 use App\Module\Apartment\Application\DTO\Apartment\ApartmentRawDTO;
+use App\Module\Apartment\Application\DTO\Apartment\EditApartmentRawDTO;
 use App\Module\Apartment\Domain\Model\Common\Square;
 use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
+use App\Module\Common\Domain\ValueObject\BuiltIn;
 use App\Module\Common\Domain\ValueObject\UnsignedInt;
 use App\Module\Common\Domain\ValueObject\UUID;
 use App\Module\Common\Domain\ValueObject\UUIDsCollection;
@@ -30,13 +32,11 @@ interface ApartmentDTOInterface
 
     public function setFloor($floor): void;
 
-    public function getBuiltIn(): \DateTimeImmutable;
+    public function getBuiltIn(): BuiltIn;
 
     public function setBuiltIn($builtIn): void;
 
     public function getRooms(): RoomsCollection;
-
-    public function addRooms(RoomsCollection $roomsCollection): void;
 
     public function getUserId(): UserId;
 
@@ -64,8 +64,6 @@ interface ApartmentDTOInterface
 
     public function getExposedAddressIds(): UUIDsCollection;
 
-    public function addExposedAddressIds(UUIDsCollection $addressIdsCollection): void;
-
     public function hasGas(): bool;
 
     public function setHasGas($hasGas): void;
@@ -78,5 +76,5 @@ interface ApartmentDTOInterface
 
     public function setHasHood($hasHood): void;
 
-    public function update(ApartmentRawDTO $dto): void;
+    public function update(EditApartmentRawDTO $dto): void;
 }

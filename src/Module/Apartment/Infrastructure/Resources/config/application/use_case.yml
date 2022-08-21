@@ -7,20 +7,20 @@ services:
   ac.apartment.use_case.apartment.create_apartment:
     class: App\Module\Apartment\Application\UseCase\Apartment\CreateApartment\CreateApartment
 
-  ac.apartment.use_case.apartment.get_apartment:
-    class: App\Module\Apartment\Application\UseCase\Apartment\GetApartment\GetApartment
-
   ac.apartment.use_case.apartment.remove_apartment:
     class: App\Module\Apartment\Application\UseCase\Apartment\RemoveApartment\RemoveApartment
 
   ac.apartment.use_case.apartment.edit_apartment:
     class: App\Module\Apartment\Application\UseCase\Apartment\EditApartment\EditApartment
 
-  ac.apartment.use_case.room.create_apartment_room:
-    class: App\Module\Apartment\Application\UseCase\Room\CreateRoomsCollection\CreateApartmentRooms
+  ac.apartment.use_case.room.create_apartment_rooms:
+    class: App\Module\Apartment\Application\UseCase\Room\CreateApartmentRooms\CreateApartmentRooms
 
   ac.apartment.use_case.room.edit_apartment_room:
     class: App\Module\Apartment\Application\UseCase\Room\EditApartmentRooms\EditApartmentRooms
 
   ac.apartment.use_case.apartment_address.create_apartment_addresses:
     class: App\Module\Apartment\Application\UseCase\ApartmentAddress\CreateApartmentAddress\CreateApartmentAddresses
+
+  ac.apartment.use_case.apartment_address.get_exposed_address_ids:
+    class: App\Module\Apartment\Application\UseCase\ApartmentAddress\GetExposedApartmentAddressIds\GetExposedApartmentAddressIds

@@ -13,8 +13,9 @@ interface RoomFactoryInterface
 {
     public function fromArgs(ApartmentId $apartmentId, Square $square, RoomType $roomType): Room;
 
-    //TODO rename to the fromEditApartmentRoomRawDT
-    public function editApartmentRoomRawDTO(EditApartmentRoomRawDTO $dto): Room;
+    public function fromCreateApartmentRawDTO(Square $square, RoomType $roomType): Room;
+
+    public function fromEditApartmentRoomRawDTO(EditApartmentRoomRawDTO $dto): Room;
 
     public function fromEntity(RoomDTOInterface $dto): Room;
 }

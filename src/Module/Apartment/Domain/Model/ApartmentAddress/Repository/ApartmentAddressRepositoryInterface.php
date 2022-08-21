@@ -10,6 +10,8 @@ interface ApartmentAddressRepositoryInterface
 {
     public function getByApartmentId(ApartmentId $id): ApartmentAddressesCollection;
 
+    public function addressesAreAvailable(ApartmentAddressesCollection $collection): bool;
+
     public function saveCollection(ApartmentAddressesCollection $collection): void;
 
     public function save(ApartmentAddress $apartmentAddress): void;

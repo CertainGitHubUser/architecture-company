@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Domain\Model\ApartmentAddress;
 
-use App\Module\Apartment\Domain\Model\Address\AddressId;
+use App\Module\Apartment\Domain\Model\Address\AddressIdsCollection;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
+use App\Module\Apartment\Infrastructure\Factory\Address\AddressIdsCollectionFactory;
 
 final class ApartmentAddressesCollection
 {
@@ -33,8 +34,7 @@ final class ApartmentAddressesCollection
         return $this->apartmentIdMap[$apartmentId->value()];
     }
 
-    /** @return AddressId[] */
-    public function getAddressIdsByApartmentId(ApartmentId $apartmentId): array
+    public function getAddressIdsByApartmentId(ApartmentId $apartmentId): AddressIdsCollection
     {
         $apartmentAddresses = $this->getByApartmentId($apartmentId);
         $addressIds = [];
@@ -43,7 +43,18 @@ final class ApartmentAddressesCollection
             $addressIds[] = $apartmentAddress->addressId();
         }
 
-        return $addressIds;
+        return AddressIdsCollectionFactory::fromList($addressIds);
+    }
+
+    public function getAllAddressIdsAsStringArray(): array
+    {
+        $result = [];
+
+        foreach ($this->apartmentAddresses as $apartmentAddress) {
+            $result[] = $apartmentAddress->addressId()->value();
+        }
+
+        return $result;
     }
 
     private function makeApartmentIdMap(): void

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Application\DTO\Room;
 
-//TODO refactor apartment raw DTOs
 final class EditApartmentRoomsRawDTO
 {
     /** @var EditApartmentRoomRawDTO[] */

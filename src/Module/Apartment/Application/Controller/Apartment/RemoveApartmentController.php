@@ -5,6 +5,7 @@ namespace App\Module\Apartment\Application\Controller\Apartment;
 
 use App\Module\Apartment\Application\Facade\ApartmentFacade;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,7 +19,11 @@ class RemoveApartmentController extends AbstractController
      */
     public function remove($id): JsonResponse
     {
-        ApartmentFacade::instance()->removeApartmentByExposedId($id);
+        try {
+            ApartmentFacade::instance()->removeApartmentByExposedId($id);
+        } catch (\Throwable $e) {
+            throw new BadRequestException($e->getMessage(), JsonResponse::HTTP_BAD_REQUEST);
+        }
 
         return new JsonResponse([], JsonResponse::HTTP_NO_CONTENT);
     }
