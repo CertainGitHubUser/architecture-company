@@ -24,11 +24,6 @@ final class EditApartmentRooms
 
     public function handle(EditApartmentRoomsRequest $request): void
     {
-        //TODO remove this validation
-        if (!ApartmentFacade::instance()->hasApartmentWithId($request->getApartmentId()->value())) {
-            throw new \Exception('EditApartmentRooms adjust exception.');
-        }
-
         $roomsCollection = $this->repository->getByApartmentId($request->getApartmentId());
 
         $this->updateRoomsCollection($roomsCollection, $request->getDTO());

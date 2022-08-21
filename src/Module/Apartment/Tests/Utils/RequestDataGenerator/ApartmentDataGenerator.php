@@ -14,7 +14,7 @@ final class ApartmentDataGenerator
             'exposed_id' => $source['exposedId'] ?? UUID::generateNew()->value(),
             'square' => $source['square'] ?? 12345,
             'floor' => $source['floor'] ?? 3,
-            'built_in' => $source['builtIn'] ?? '2009-06-15T13:45:30',
+            'built_in' => $source['builtIn'] ?? '2009-06-15',
             'user_id' => $source['ownerId'] ?? '123',
             'price' => $source['price'] ?? '123456',
             'apartment_type' => $source['apartmentType'] ?? 'RegularApartment',

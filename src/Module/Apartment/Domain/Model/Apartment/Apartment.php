@@ -3,15 +3,14 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Domain\Model\Apartment;
 
-use App\Module\Apartment\Domain\Model\ApartmentAddress\ApartmentAddressesCollection;
 use App\Module\Apartment\Domain\Model\Common\Square;
 use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
+use App\Module\Common\Domain\ValueObject\BuiltIn;
 use App\Module\Common\Domain\ValueObject\UnsignedInt;
 use App\Module\Common\Domain\ValueObject\UUID;
 use App\Module\Common\Domain\ValueObject\UUIDsCollection;
 use App\Module\Price\Domain\Model\Currency\Currency;
 use App\Module\Price\Domain\Model\Price\Price;
-use App\Module\User\Domain\Model\User\User;
 use App\Module\User\Domain\Model\User\UserId;
 
 final class Apartment implements \JsonSerializable
@@ -48,7 +47,7 @@ final class Apartment implements \JsonSerializable
         return $this->dto->getFloor();
     }
 
-    public function builtIn(): \DateTimeImmutable
+    public function builtIn(): BuiltIn
     {
         return $this->dto->getBuiltIn();
     }
@@ -110,23 +109,22 @@ final class Apartment implements \JsonSerializable
 
     public function jsonSerialize()
     {
-       return [
-           'id' => $this->exposedId()->value(),
-           'square' => $this->square()->value(),
-           'floor' => $this->floor()->value(),
-           //TODO change format
-           'builtIn' => $this->builtIn()->format(\DateTimeImmutable::ATOM) ,
-           'rooms' => $this->rooms(),
-           'ownerId' => $this->ownerId()->value(),
-           'price' => $this->price()->value(),
-           'apartmentType' => $this->apartmentType()->value(),
-           'heatingType' => $this->heatingType()->value(),
-           'rentalPrice' => $this->rentalPrice()->value(),
-           'currency' => $this->currency()->value(),
-           'hasGas' => $this->hasGas(),
-           'hasWater' => $this->hasWater(),
-           'hasHood' => $this->hasHood(),
-           'addresses' => $this->addresses(),
-       ];
+        return [
+            'id' => $this->exposedId()->value(),
+            'square' => $this->square()->value(),
+            'floor' => $this->floor()->value(),
+            'builtIn' => $this->builtIn()->value(),
+            'rooms' => $this->rooms(),
+            'ownerId' => $this->ownerId()->value(),
+            'price' => $this->price()->value(),
+            'apartmentType' => $this->apartmentType()->value(),
+            'heatingType' => $this->heatingType()->value(),
+            'rentalPrice' => $this->rentalPrice()->value(),
+            'currency' => $this->currency()->value(),
+            'hasGas' => $this->hasGas(),
+            'hasWater' => $this->hasWater(),
+            'hasHood' => $this->hasHood(),
+            'addresses' => $this->addresses(),
+        ];
     }
 }

@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Application\UseCase\ApartmentAddress\CreateApartmentAddress;
 
-use App\Module\Apartment\Domain\Model\Address\Factory\AddressIdsCollectionFactoryInterface;
+use App\Module\Apartment\Application\Exception\UseCase\ApartmentAddress\InvalidAddressesAmountException;
+use App\Module\Apartment\Application\Exception\UseCase\ApartmentAddress\ProvidedAddressesAreTakenException;
 use App\Module\Apartment\Domain\Model\Address\Repository\AddressRepositoryInterface;
-use App\Module\Apartment\Domain\Model\Apartment\Exception\Repository\ApartmentWithIdNotFoundException;
 use App\Module\Apartment\Domain\Model\Apartment\Repository\ApartmentRepositoryInterface;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\Factory\ApartmentAddressesCollectionFactoryInterface;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\Repository\ApartmentAddressRepositoryInterface;
@@ -18,34 +18,38 @@ final class CreateApartmentAddresses
 
     private AddressRepositoryInterface $addressRepository;
 
-    private ApartmentAddressesCollectionFactoryInterface $collectionFactory;
-
-    private AddressIdsCollectionFactoryInterface $addressIdsCollectionFactory;
+    private ApartmentAddressesCollectionFactoryInterface $apartmentAddressesCollectionFactory;
 
     public function __construct(
         ApartmentAddressRepositoryInterface          $apartmentAddressRepository,
         ApartmentRepositoryInterface                 $apartmentRepository,
         AddressRepositoryInterface                   $addressRepository,
-        ApartmentAddressesCollectionFactoryInterface $collectionFactory,
-        AddressIdsCollectionFactoryInterface         $addressIdsCollectionFactory
+        ApartmentAddressesCollectionFactoryInterface $apartmentAddressesCollectionFactory
     )
     {
         $this->apartmentAddressRepository = $apartmentAddressRepository;
         $this->apartmentRepository = $apartmentRepository;
         $this->addressRepository = $addressRepository;
-        $this->collectionFactory = $collectionFactory;
-        $this->addressIdsCollectionFactory = $addressIdsCollectionFactory;
+        $this->apartmentAddressesCollectionFactory = $apartmentAddressesCollectionFactory;
     }
 
     public function handle(CreateApartmentAddressesRequest $request): void
     {
-        if (!$this->apartmentRepository->hasId($request->getApartmentId())) {
-            throw new ApartmentWithIdNotFoundException($request->getApartmentId());
+        $addressesAmount = $request->getExposedAddressIds()->count()->value();
+
+        if ($addressesAmount > 4 || $addressesAmount < 1) {
+            throw new InvalidAddressesAmountException($addressesAmount);
         }
 
+        $apartmentId = $this->apartmentRepository->getIdByExposedId($request->getExposedApartmentId());
         $addressIdsCollection = $this->addressRepository->getIdsByExposedIds($request->getExposedAddressIds());
-        $collection = $this->collectionFactory->fromArgs($request->getApartmentId(), $addressIdsCollection);
 
-        $this->apartmentAddressRepository->saveCollection($collection);
+        $apartmentAddressesCollection = $this->apartmentAddressesCollectionFactory->fromArgs($apartmentId, $addressIdsCollection);
+
+        if (!$this->apartmentAddressRepository->addressesAreAvailable($apartmentAddressesCollection)) {
+            throw new ProvidedAddressesAreTakenException();
+        }
+
+        $this->apartmentAddressRepository->saveCollection($apartmentAddressesCollection);
     }
 }

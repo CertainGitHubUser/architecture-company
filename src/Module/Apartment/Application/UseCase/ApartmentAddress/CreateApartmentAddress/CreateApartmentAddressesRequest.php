@@ -3,27 +3,25 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Application\UseCase\ApartmentAddress\CreateApartmentAddress;
 
-use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
-use App\Module\Common\Domain\Factory\UUIDsCollectionFactory;
 use App\Module\Common\Domain\ValueObject\UUID;
 use App\Module\Common\Domain\ValueObject\UUIDsCollection;
 
 final class CreateApartmentAddressesRequest
 {
-    private ApartmentId $apartmentId;
+    private UUID $exposedApartmentId;
 
     /** @var UUIDsCollection */
     private UUIDsCollection $exposedAddressIds;
 
-    public function __construct(int $apartmentId, array $exposedAddressIds)
+    public function __construct(UUID $exposedApartmentId, UUIDsCollection $exposedAddressIds)
     {
-        $this->apartmentId = new ApartmentId($apartmentId);
-        $this->exposedAddressIds = UUIDsCollectionFactory::fromStringArray($exposedAddressIds);
+        $this->exposedApartmentId = $exposedApartmentId;
+        $this->exposedAddressIds = $exposedAddressIds;
     }
 
-    public function getApartmentId(): ApartmentId
+    public function getExposedApartmentId(): UUID
     {
-        return $this->apartmentId;
+        return $this->exposedApartmentId;
     }
 
     public function getExposedAddressIds(): UUIDsCollection

@@ -26,7 +26,16 @@ final class RoomFactory implements RoomFactoryInterface
         return $this->fromEntity($room);
     }
 
-    public function editApartmentRoomRawDTO(EditApartmentRoomRawDTO $dto): Room
+    public function fromCreateApartmentRawDTO(Square $square, RoomType $roomType): Room
+    {
+        $room = new RoomEntity;
+        $room->setSquare($square->value());
+        $room->setRoomType($roomType->value());
+
+        return $this->fromEntity($room);
+    }
+
+    public function fromEditApartmentRoomRawDTO(EditApartmentRoomRawDTO $dto): Room
     {
         $room = new RoomEntity;
         $room->setExposedId($dto->exposedId);

@@ -27,20 +27,18 @@ final class CreateApartment
 
     public function handle(CreateApartmentRequest $request): void
     {
-        $this->transactionManager->transactional(function () use ($request) {
-            $apartment = $this->apartmentFactory->fromApartmentRawDTO($request->getDTO());
+        $apartment = $this->apartmentFactory->fromCreateApartmentRawDTO($request->getDTO());
 
+        $this->transactionManager->transactional(function () use ($request, $apartment) {
             $this->apartmentRepository->save($apartment);
 
-            $createdApartment = $this->apartmentRepository->getByExposedId($apartment->exposedId());
-
             ApartmentFacade::instance()->createApartmentRooms(
-                $createdApartment->id()->value(),
+                $apartment->exposedId()->value(),
                 $request->getDTO()->rooms
             );
 
             ApartmentFacade::instance()->createApartmentAddresses(
-                $createdApartment->id()->value(),
+                $apartment->exposedId()->value(),
                 $request->getDTO()->addresses
             );
         });

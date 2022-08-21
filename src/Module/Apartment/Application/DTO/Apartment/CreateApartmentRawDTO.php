@@ -5,7 +5,7 @@ namespace App\Module\Apartment\Application\DTO\Apartment;
 
 use App\Module\Common\Application\DTO\InitializeFromArrayTrait;
 
-class ApartmentRawDTO
+class CreateApartmentRawDTO
 {
     use InitializeFromArrayTrait;
 
@@ -14,8 +14,6 @@ class ApartmentRawDTO
     public int $floor;
 
     public string $builtIn;
-
-    public array $rooms;
 
     public int $ownerId;
 
@@ -29,21 +27,21 @@ class ApartmentRawDTO
 
     public string $currency;
 
-    public array $addresses;
-
     public bool $hasGas;
 
     public bool $hasWater;
 
     public bool $hasHood;
 
-    public array $rawRequest;
+    public array $addresses;
 
-    public static function initialize(array $request): ApartmentRawDTO
+    public array $rooms;
+
+    public static function initialize(array $request): CreateApartmentRawDTO
     {
         $dto = self::fromArray($request);
-        $dto->rawRequest = $request;
         $dto->rooms = $request['rooms'];
+        $dto->addresses = $request['addresses'];
 
         return $dto;
     }

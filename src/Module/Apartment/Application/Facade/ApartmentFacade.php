@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Application\Facade;
 
-use App\Module\Apartment\Application\DTO\Apartment\ApartmentRawDTO;
+use App\Module\Apartment\Application\DTO\Apartment\CreateApartmentRawDTO;
+use App\Module\Apartment\Application\DTO\Apartment\EditApartmentRawDTO;
 use App\Module\Apartment\Application\DTO\Room\ApartmentRoomsRawDTO;
 use App\Module\Apartment\Application\DTO\Room\EditApartmentRoomsRawDTO;
 use App\Module\Apartment\Application\UseCase\Apartment\CreateApartment\CreateApartmentRequest;
@@ -17,6 +18,12 @@ use App\Module\Apartment\Domain\Model\Apartment\Apartment;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
 use App\Module\Apartment\Domain\Model\Apartment\Exception\Repository\ApartmentWithIdNotFoundException;
 use App\Module\Apartment\Domain\Model\Apartment\Repository\ApartmentRepositoryInterface;
+use App\Module\Apartment\Domain\Model\ApartmentAddress\Repository\ApartmentAddressRepositoryInterface;
+use App\Module\Apartment\Domain\Model\Room\Repository\RoomRepositoryInterface;
+use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
+use App\Module\Common\Domain\Factory\UUIDsCollectionFactory;
+use App\Module\Common\Domain\ValueObject\UUID;
+use App\Module\Common\Domain\ValueObject\UUIDsCollection;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 final class ApartmentFacade
@@ -36,10 +43,9 @@ final class ApartmentFacade
         return new self($app);
     }
 
-    public function createApartment(array $apartmentData)
+    public function createApartment(array $apartmentData): void
     {
-        $request = new CreateApartmentRequest(ApartmentRawDTO::initialize($apartmentData));
-
+        $request = new CreateApartmentRequest(CreateApartmentRawDTO::fromArray($apartmentData));
         $service = $this->kernel->getContainer()->get('ac.apartment.use_case.apartment.create_apartment');
 
         $service->handle($request);
@@ -47,7 +53,8 @@ final class ApartmentFacade
 
     public function editApartment(string $exposedId, array $apartmentData): void
     {
-        $request = new EditApartmentRequest(ApartmentRawDTO::initialize($apartmentData), $exposedId);
+        $request = new EditApartmentRequest(EditApartmentRawDTO::initialize($apartmentData), $exposedId);
+
 
         $service = $this->kernel->getContainer()->get('ac.apartment.use_case.apartment.edit_apartment');
 
@@ -56,13 +63,8 @@ final class ApartmentFacade
 
     public function getApartmentByExposedId(string $exposedId): Apartment
     {
-        $request = new GetApartmentRequest($exposedId);
-
-        $service = $this->kernel->getContainer()->get('ac.apartment.use_case.apartment.get_apartment');
-
-        return $service->handle($request);
+        return $this->getApartmentRepository()->getByExposedId(new UUID($exposedId));
     }
-
 
     public function removeApartmentByExposedId(string $exposedId): void
     {
@@ -84,14 +86,14 @@ final class ApartmentFacade
         return $this->getApartmentRepository()->hasId(new ApartmentId($apartmentId));
     }
 
-    public function createApartmentRooms(int $apartmentId, array $rooms)
+    public function createApartmentRooms(string $exposedApartmentId, array $rooms): void
     {
         $request = new CreateApartmentRoomsRequest(
-            new ApartmentId($apartmentId),
+            UUID::fromString($exposedApartmentId),
             ApartmentRoomsRawDTO::initialize($rooms)
         );
 
-        $service = $this->kernel->getContainer()->get('ac.apartment.use_case.room.create_apartment_room');
+        $service = $this->kernel->getContainer()->get('ac.apartment.use_case.room.create_apartment_rooms');
 
         $service->handle($request);
     }
@@ -108,17 +110,42 @@ final class ApartmentFacade
         $service->handle($request);
     }
 
-    public function createApartmentAddresses(int $apartmentId, array $exposedAddressIds): void
+    public function getApartmentRoomsByApartmentId(int $apartmentId): RoomsCollection
     {
-        $request = new CreateApartmentAddressesRequest($apartmentId, $exposedAddressIds);
+        return $this->getRoomRepository()->getByApartmentId(new ApartmentId($apartmentId));
+    }
+
+    public function createApartmentAddresses(string $exposedApartmentId, array $exposedAddressIds): void
+    {
+        $request = new CreateApartmentAddressesRequest(
+            UUID::fromString($exposedApartmentId),
+            UUIDsCollectionFactory::fromStringArray($exposedAddressIds)
+        );
 
         $service = $this->kernel->getContainer()->get('ac.apartment.use_case.apartment_address.create_apartment_addresses');
 
         $service->handle($request);
     }
 
+    public function getExposedApartmentAddressIds(int $apartmentId): UUIDsCollection
+    {
+        $service = $this->kernel->getContainer()->get('ac.apartment.use_case.apartment_address.get_exposed_address_ids');
+
+        return $service->handle(new ApartmentId($apartmentId));
+    }
+
     private function getApartmentRepository(): ApartmentRepositoryInterface
     {
-        return $this->kernel->getContainer()->get('ac.apartment.repository.apartment_repository');
+        return $this->kernel->getContainer()->get('ac.apartment.repository.apartment');
+    }
+
+    private function getRoomRepository(): RoomRepositoryInterface
+    {
+        return $this->kernel->getContainer()->get('ac.apartment.repository.room');
+    }
+
+    private function getApartmentAddressRepository(): ApartmentAddressRepositoryInterface
+    {
+        return $this->kernel->getContainer()->get('ac.apartment.repository.apartment_address');
     }
 }

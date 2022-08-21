@@ -3,13 +3,16 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Infrastructure\Entity;
 
-use App\Module\Apartment\Application\DTO\Apartment\ApartmentRawDTO;
+use App\Module\Apartment\Application\DTO\Apartment\CreateApartmentRawDTO;
+use App\Module\Apartment\Application\DTO\Apartment\EditApartmentRawDTO;
+use App\Module\Apartment\Application\Facade\ApartmentFacade;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentDTOInterface;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
 use App\Module\Apartment\Domain\Model\Apartment\ApartmentType;
 use App\Module\Apartment\Domain\Model\Apartment\HeatingType;
 use App\Module\Apartment\Domain\Model\Common\Square;
 use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
+use App\Module\Common\Domain\ValueObject\BuiltIn;
 use App\Module\Common\Domain\ValueObject\UnsignedInt;
 use App\Module\Common\Domain\ValueObject\UUID;
 use App\Module\Common\Domain\ValueObject\UUIDsCollection;
@@ -55,7 +58,7 @@ class ApartmentEntity implements ApartmentDTOInterface
     private $floor;
 
     /**
-     * @ORM\Column(type="date_immutable")
+     * @ORM\Column(type="string")
      */
     private $builtIn;
 
@@ -99,16 +102,16 @@ class ApartmentEntity implements ApartmentDTOInterface
      */
     private $hasHood;
 
-    private UUIDsCollection $exposedAddressIds;
+    private UUIDsCollection $_exposedAddressIds;
 
-    private RoomsCollection $rooms;
+    private RoomsCollection $_rooms;
 
-    public function __construct(ApartmentRawDTO $rawDTO)
+    public function __construct(CreateApartmentRawDTO $rawDTO)
     {
         $this->_initialize($rawDTO);
     }
 
-    public function update(ApartmentRawDTO $dto): void
+    public function update(EditApartmentRawDTO $dto): void
     {
         $this->_update($dto);
     }
@@ -153,24 +156,23 @@ class ApartmentEntity implements ApartmentDTOInterface
         $this->floor = UnsignedInt::fromString($floor)->value();
     }
 
-    public function getBuiltIn(): \DateTimeImmutable
+    public function getBuiltIn(): BuiltIn
     {
-        return $this->builtIn;
+        return BuiltIn::fromString($this->builtIn);
     }
 
     public function setBuiltIn($builtIn): void
     {
-        $this->builtIn = new \DateTimeImmutable();
+        $this->builtIn = BuiltIn::fromString($builtIn)->value();
     }
 
     public function getRooms(): RoomsCollection
     {
-        return $this->rooms;
-    }
+        if (empty($this->_rooms)) {
+            $this->_rooms = ApartmentFacade::instance()->getApartmentRoomsByApartmentId($this->id);
+        }
 
-    public function addRooms(RoomsCollection $roomsCollection): void
-    {
-        $this->rooms = $roomsCollection;
+        return $this->_rooms;
     }
 
     public function getUserId(): UserId
@@ -235,12 +237,11 @@ class ApartmentEntity implements ApartmentDTOInterface
 
     public function getExposedAddressIds(): UUIDsCollection
     {
-        return $this->exposedAddressIds;
-    }
+        if (empty($this->_exposedAddressIds)) {
+            $this->_exposedAddressIds = ApartmentFacade::instance()->getExposedApartmentAddressIds($this->id);
+        }
 
-    public function addExposedAddressIds(UUIDsCollection $addressIdsCollection): void
-    {
-        $this->exposedAddressIds = $addressIdsCollection;
+        return $this->_exposedAddressIds;
     }
 
     public function hasGas(): bool

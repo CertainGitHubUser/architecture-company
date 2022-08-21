@@ -2,6 +2,11 @@ default:
   autoload:
     '': '%paths.base%'
   suites:
+    default:
+      contexts:
+        - behatch:context:json
+        - behatch:context:rest
+        - Behat\MinkExtension\Context\MinkContext
     apartment_module:
       paths: [ '%paths.base%/../../../src/Module/Apartment/Tests/Behat/features' ]
       contexts:

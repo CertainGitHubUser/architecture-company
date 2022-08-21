@@ -50,7 +50,6 @@ final class Room implements \JsonSerializable
     {
         return [
             'id' => $this->exposedId()->value(),
-            'apartmentId' => $this->apartmentId()->value(),
             'roomType' => $this->roomType()->value(),
             'square' => $this->square()->value(),
         ];

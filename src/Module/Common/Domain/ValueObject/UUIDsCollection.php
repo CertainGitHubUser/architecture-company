@@ -10,6 +10,8 @@ final class UUIDsCollection implements \JsonSerializable
 
     private array $stringArray;
 
+    private UnsignedInt $UUIDsAmount;
+
     public function __construct(array $UUIDs)
     {
         $this->UUIDs = $UUIDs;
@@ -40,7 +42,11 @@ final class UUIDsCollection implements \JsonSerializable
 
     public function count(): UnsignedInt
     {
-        return new UnsignedInt(count($this->UUIDs));
+        if (empty($this->UUIDsAmount)) {
+            $this->UUIDsAmount = new UnsignedInt(count($this->UUIDs));
+        }
+
+        return $this->UUIDsAmount;
     }
 
     public function jsonSerialize()

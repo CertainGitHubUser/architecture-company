@@ -5,17 +5,27 @@ services:
     public: true
     autoconfigure: true
 
+  # address repository
   App\Module\Apartment\Domain\Model\Address\Repository\AddressRepositoryInterface:
     class: App\Module\Apartment\Infrastructure\Repository\Address\DoctrineAddressRepository
 
-  ac.apartment.repository.apartment_repository:
+  # apartment repository
+  ac.apartment.repository.apartment:
     alias: App\Module\Apartment\Domain\Model\Apartment\Repository\ApartmentRepositoryInterface
 
   App\Module\Apartment\Domain\Model\Apartment\Repository\ApartmentRepositoryInterface:
     class: App\Module\Apartment\Infrastructure\Repository\Apartment\DoctrineApartmentRepository
 
+  # apartment address repository
+  ac.apartment.repository.apartment_address:
+    alias: App\Module\Apartment\Domain\Model\ApartmentAddress\Repository\ApartmentAddressRepositoryInterface
+
   App\Module\Apartment\Domain\Model\ApartmentAddress\Repository\ApartmentAddressRepositoryInterface:
     class: App\Module\Apartment\Infrastructure\Repository\ApartmentAddress\DoctrineApartmentAddressRepository
+
+  # room repository
+  ac.apartment.repository.room:
+    alias: App\Module\Apartment\Domain\Model\Room\Repository\RoomRepositoryInterface
 
   App\Module\Apartment\Domain\Model\Room\Repository\RoomRepositoryInterface:
     class: App\Module\Apartment\Infrastructure\Repository\Room\DoctrineRoomRepository
