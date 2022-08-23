@@ -13,5 +13,4 @@ framework:
             # sync: 'sync://'
 
         routing:
-#             'App\Messanger\SampleMessage': async
-
+            App\Module\Apartment\Domain\Model\Apartment\Message\ApartmentCreatedMessage: async
