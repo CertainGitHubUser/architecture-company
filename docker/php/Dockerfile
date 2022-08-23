@@ -63,7 +63,7 @@ RUN set -eux; \
 
 RUN set -eux \
 	&& mkdir -p var/cache var/log \
-	&& composer dump-autoload --classmap-authoritative \
+	&& composer dump-autoload --classmap-authoritative
 
 RUN chmod 777 -R var
 
