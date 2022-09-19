@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Module\Apartment\Domain\Model\ApartmentAddress;
 
 use App\Module\Apartment\Domain\Model\Address\AddressIdsCollection;
-use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
 use App\Module\Apartment\Infrastructure\Factory\Address\AddressIdsCollectionFactory;
 
 final class ApartmentAddressesCollection

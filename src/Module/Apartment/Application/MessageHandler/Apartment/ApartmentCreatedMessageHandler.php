@@ -11,6 +11,7 @@ final class ApartmentCreatedMessageHandler implements MessageHandlerInterface
     public function __invoke(ApartmentCreatedMessage $message): void
     {
         /**
+         * Here must be business logic smth like
          * call facade from module a, call facade from module b, do some processing, etc.
          * some logging;
          */

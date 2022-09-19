@@ -9,15 +9,14 @@ use App\Module\Apartment\Application\DTO\Room\ApartmentRoomsRawDTO;
 use App\Module\Apartment\Application\DTO\Room\EditApartmentRoomsRawDTO;
 use App\Module\Apartment\Application\UseCase\Apartment\CreateApartment\CreateApartmentRequest;
 use App\Module\Apartment\Application\UseCase\Apartment\EditApartment\EditApartmentRequest;
-use App\Module\Apartment\Application\UseCase\Apartment\GetApartment\GetApartmentRequest;
 use App\Module\Apartment\Application\UseCase\Apartment\RemoveApartment\RemoveApartmentRequest;
 use App\Module\Apartment\Application\UseCase\ApartmentAddress\CreateApartmentAddress\CreateApartmentAddressesRequest;
 use App\Module\Apartment\Application\UseCase\Room\CreateApartmentRooms\CreateApartmentRoomsRequest;
 use App\Module\Apartment\Application\UseCase\Room\EditApartmentRooms\EditApartmentRoomsRequest;
 use App\Module\Apartment\Domain\Model\Apartment\Apartment;
-use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
 use App\Module\Apartment\Domain\Model\Apartment\Exception\Repository\ApartmentWithIdNotFoundException;
 use App\Module\Apartment\Domain\Model\Apartment\Repository\ApartmentRepositoryInterface;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\Repository\ApartmentAddressRepositoryInterface;
 use App\Module\Apartment\Domain\Model\Room\Repository\RoomRepositoryInterface;
 use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
@@ -54,7 +53,6 @@ final class ApartmentFacade
     public function editApartment(string $exposedId, array $apartmentData): void
     {
         $request = new EditApartmentRequest(EditApartmentRawDTO::initialize($apartmentData), $exposedId);
-
 
         $service = $this->kernel->getContainer()->get('ac.apartment.use_case.apartment.edit_apartment');
 

@@ -6,7 +6,6 @@ namespace App\Module\Common\Domain\Factory;
 use App\Module\Common\Domain\ValueObject\UUID;
 use App\Module\Common\Domain\ValueObject\UUIDsCollection;
 
-//TODO split responsibilities (uuids collection exposed id, and regular uuids)
 final class UUIDsCollectionFactory
 {
     public static function fromStringArray(array $values): UUIDsCollection

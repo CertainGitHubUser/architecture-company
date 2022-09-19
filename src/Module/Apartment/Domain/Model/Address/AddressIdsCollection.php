@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Domain\Model\Address;
 
+use App\Module\Apartment\Domain\Model\Address\ValueObject\AddressId;
 use App\Module\Common\Domain\ValueObject\UnsignedInt;
 
 final class AddressIdsCollection

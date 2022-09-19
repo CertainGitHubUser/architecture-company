@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Module\Apartment\Application\UseCase\Room\EditApartmentRooms;
 
 use App\Module\Apartment\Application\DTO\Room\EditApartmentRoomsRawDTO;
-use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
 
 final class EditApartmentRoomsRequest
 {

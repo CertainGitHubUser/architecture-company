@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Module\Apartment\Domain\Model\Room;
+namespace App\Module\Apartment\Domain\Model\Room\ValueObject;
 
 use App\Module\Apartment\Domain\Model\Room\Exception\InvalidRoomTypeException;
 use App\Module\Common\Domain\ValueObject\AbstractValueObject;

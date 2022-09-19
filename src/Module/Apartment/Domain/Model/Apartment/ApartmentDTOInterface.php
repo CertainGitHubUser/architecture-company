@@ -4,7 +4,10 @@ namespace App\Module\Apartment\Domain\Model\Apartment;
 
 use App\Module\Apartment\Application\DTO\Apartment\ApartmentRawDTO;
 use App\Module\Apartment\Application\DTO\Apartment\EditApartmentRawDTO;
-use App\Module\Apartment\Domain\Model\Common\Square;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentType;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\HeatingType;
+use App\Module\Apartment\Domain\Model\Common\ValueObject\Square;
 use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
 use App\Module\Common\Domain\ValueObject\BuiltIn;
 use App\Module\Common\Domain\ValueObject\UnsignedInt;

@@ -5,7 +5,7 @@ namespace App\Module\Apartment\Application\DTO\Apartment;
 
 use App\Module\Common\Application\DTO\InitializeFromArrayTrait;
 
-class CreateApartmentRawDTO
+final class CreateApartmentRawDTO
 {
     use InitializeFromArrayTrait;
 

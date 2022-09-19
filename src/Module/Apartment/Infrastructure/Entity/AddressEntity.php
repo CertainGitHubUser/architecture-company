@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace App\Module\Apartment\Infrastructure\Entity;
 
 use App\Module\Apartment\Domain\Model\Address\AddressDTOInterface;
-use App\Module\Apartment\Domain\Model\Address\AddressId;
-use App\Module\Apartment\Domain\Model\Address\Latitude;
-use App\Module\Apartment\Domain\Model\Address\Longitude;
-use App\Module\Apartment\Domain\Model\Address\ZIPCode;
+use App\Module\Apartment\Domain\Model\Address\ValueObject\AddressId;
+use App\Module\Apartment\Domain\Model\Address\ValueObject\Latitude;
+use App\Module\Apartment\Domain\Model\Address\ValueObject\Longitude;
+use App\Module\Apartment\Domain\Model\Address\ValueObject\ZIPCode;
 use App\Module\Common\Domain\ValueObject\NotEmptyString;
 use App\Module\Common\Domain\ValueObject\UUID;
 use Doctrine\ORM\Mapping as ORM;

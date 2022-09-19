@@ -73,7 +73,7 @@ final class ApartmentContext extends BaseContext
     /**
      * @Given apartment will have the following config:
      */
-    public function apartmentWillHaveTheFollowingConfig(PyStringNode $config)
+    public function apartmentWillHaveTheFollowingConfig(PyStringNode $config): void
     {
         $this->apartment = $this->jsonPyStringToArray($config);
     }
@@ -89,7 +89,7 @@ final class ApartmentContext extends BaseContext
     /**
      * @Given apartment with id :apartmentId and addresses with ids:
      */
-    public function givenApartmentWithIdAndAddressIds(string $apartmentId, PyStringNode $addressIds)
+    public function givenApartmentWithIdAndAddressIds(string $apartmentId, PyStringNode $addressIds): void
     {
         $this->apartmentFixturesPersister->addApartmentWithIdAndAddressIds($apartmentId, $addressIds->getStrings());
     }
@@ -97,7 +97,7 @@ final class ApartmentContext extends BaseContext
     /**
      * @Given apartment with id :apartmentId and following config:
      */
-    public function givenApartmentWithIdAndFollowingConfig(string $apartmentId, PyStringNode $config)
+    public function givenApartmentWithIdAndFollowingConfig(string $apartmentId, PyStringNode $config): void
     {
         $this->apartmentFixturesPersister->addApartmentWithIdAndConfig($apartmentId, $this->jsonPyStringToArray($config));
     }
@@ -105,7 +105,7 @@ final class ApartmentContext extends BaseContext
     /**
      * @Given apartment with following config:
      */
-    public function givenApartmentWithFollowingConfig(PyStringNode $config)
+    public function givenApartmentWithFollowingConfig(PyStringNode $config): void
     {
         $this->apartmentFixturesPersister->addApartmentWithConfig($this->jsonPyStringToArray($config));
     }
@@ -124,7 +124,8 @@ final class ApartmentContext extends BaseContext
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            CreateApartmentRequestDataGenerator::fromApartmentData($this->apartment)));
+            CreateApartmentRequestDataGenerator::fromApartmentData($this->apartment)
+        ));
     }
 
     /**
@@ -148,7 +149,7 @@ final class ApartmentContext extends BaseContext
     /**
      * @When I try to remove this apartment with id :id
      */
-    public function whenITryToRemoveThisApartment(string $id)
+    public function whenITryToRemoveThisApartment(string $id): void
     {
         $path = "/api/v1/apartment/{$id}";
 
@@ -203,7 +204,7 @@ final class ApartmentContext extends BaseContext
     /**
      * @AfterScenario
      */
-    public function cleanupDb()
+    public function cleanupDb(): void
     {
         $this->apartmentFixturesPersister->cleanUp();
     }

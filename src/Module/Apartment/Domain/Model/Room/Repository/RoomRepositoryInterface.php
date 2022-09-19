@@ -2,7 +2,7 @@
 
 namespace App\Module\Apartment\Domain\Model\Room\Repository;
 
-use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
 use App\Module\Apartment\Domain\Model\Room\Room;
 use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
 

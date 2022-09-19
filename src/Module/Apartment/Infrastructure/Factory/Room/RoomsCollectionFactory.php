@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace App\Module\Apartment\Infrastructure\Factory\Room;
 
 use App\Module\Apartment\Application\DTO\Room\ApartmentRoomsRawDTO;
-use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
-use App\Module\Apartment\Domain\Model\Common\Square;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
+use App\Module\Apartment\Domain\Model\Common\ValueObject\Square;
 use App\Module\Apartment\Domain\Model\Room\Factory\RoomFactoryInterface;
 use App\Module\Apartment\Domain\Model\Room\Factory\RoomsCollectionFactoryInterface;
 use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
-use App\Module\Apartment\Domain\Model\Room\RoomType;
+use App\Module\Apartment\Domain\Model\Room\ValueObject\RoomType;
 
 final class RoomsCollectionFactory implements RoomsCollectionFactoryInterface
 {

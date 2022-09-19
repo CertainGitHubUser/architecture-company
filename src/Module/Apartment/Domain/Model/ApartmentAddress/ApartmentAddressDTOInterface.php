@@ -2,8 +2,9 @@
 
 namespace App\Module\Apartment\Domain\Model\ApartmentAddress;
 
-use App\Module\Apartment\Domain\Model\Address\AddressId;
-use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
+use App\Module\Apartment\Domain\Model\Address\ValueObject\AddressId;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
+use App\Module\Apartment\Domain\Model\ApartmentAddress\ValueObject\ApartmentAddressId;
 
 interface ApartmentAddressDTOInterface
 {

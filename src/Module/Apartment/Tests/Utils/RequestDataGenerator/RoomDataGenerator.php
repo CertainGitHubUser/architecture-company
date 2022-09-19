@@ -5,24 +5,6 @@ namespace App\Module\Apartment\Tests\Utils\RequestDataGenerator;
 
 final class RoomDataGenerator
 {
-    public static function generateAnyApartmentRooms(int $apartmentId): array
-    {
-        return $source['rooms'] ?? [
-                [
-                    'room_type' => 'LivingRoom',
-                    'square' => 342
-                ],
-                [
-                    'room_type' => 'Bedroom',
-                    'square' => 343
-                ],
-                [
-                    'room_type' => 'Kitchen',
-                    'square' => 344
-                ],
-            ];
-    }
-
     /**
      * @param array $config contains following params:
      *  'exposed_id'   => type uuid;

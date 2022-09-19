@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Domain\Model\Room;
 
-use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
 use App\Module\Common\Domain\ValueObject\UnsignedInt;
 use App\Module\Common\Domain\ValueObject\UUID;
 

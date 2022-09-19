@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Application\DTO\Room;
 
-class ApartmentRoomsRawDTO
+final class ApartmentRoomsRawDTO
 {
     /** @var ApartmentRoomRawDTO[]  */
     public array $rooms;
