@@ -3,11 +3,11 @@
 namespace App\Module\Apartment\Domain\Model\Room\Factory;
 
 use App\Module\Apartment\Application\DTO\Room\EditApartmentRoomRawDTO;
-use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
-use App\Module\Apartment\Domain\Model\Common\Square;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
+use App\Module\Apartment\Domain\Model\Common\ValueObject\Square;
 use App\Module\Apartment\Domain\Model\Room\Room;
 use App\Module\Apartment\Domain\Model\Room\RoomDTOInterface;
-use App\Module\Apartment\Domain\Model\Room\RoomType;
+use App\Module\Apartment\Domain\Model\Room\ValueObject\RoomType;
 
 interface RoomFactoryInterface
 {

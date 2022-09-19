@@ -3,9 +3,9 @@
 namespace App\Module\Apartment\Domain\Model\Apartment\Repository;
 
 use App\Module\Apartment\Domain\Model\Apartment\Apartment;
-use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
 use App\Module\Apartment\Domain\Model\Apartment\Exception\Repository\ApartmentWithExposedIdNotFoundException;
 use App\Module\Apartment\Domain\Model\Apartment\Exception\Repository\ApartmentWithIdNotFoundException;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
 use App\Module\Common\Domain\ValueObject\UUID;
 
 interface ApartmentRepositoryInterface

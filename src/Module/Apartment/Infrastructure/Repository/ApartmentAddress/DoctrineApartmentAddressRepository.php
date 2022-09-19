@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Infrastructure\Repository\ApartmentAddress;
 
-use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\ApartmentAddress;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\ApartmentAddressesCollection;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\Factory\ApartmentAddressesCollectionFactoryInterface;
-use App\Module\Apartment\Domain\Model\ApartmentAddress\Factory\ApartmentAddressFactoryInterface;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\Repository\ApartmentAddressRepositoryInterface;
 use App\Module\Apartment\Infrastructure\Entity\ApartmentAddressEntity;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,19 +17,16 @@ final class DoctrineApartmentAddressRepository implements ApartmentAddressReposi
     private EntityManagerInterface $manager;
     private ObjectRepository $doctrineRepository;
 
-    private ApartmentAddressFactoryInterface $apartmentAddressFactory;
     private ApartmentAddressesCollectionFactoryInterface $apartmentAddressesCollectionFactory;
 
     public function __construct(
         EntityManagerInterface                       $manager,
-        ApartmentAddressFactoryInterface             $apartmentAddressFactory,
         ApartmentAddressesCollectionFactoryInterface $apartmentAddressesCollectionFactory
     )
     {
         $this->manager = $manager;
         $this->doctrineRepository = $this->manager->getRepository(ApartmentAddressEntity::class);
 
-        $this->apartmentAddressFactory = $apartmentAddressFactory;
         $this->apartmentAddressesCollectionFactory = $apartmentAddressesCollectionFactory;
     }
 

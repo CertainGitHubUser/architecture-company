@@ -2,6 +2,10 @@
 
 namespace App\Module\Apartment\Domain\Model\Address;
 
+use App\Module\Apartment\Domain\Model\Address\ValueObject\AddressId;
+use App\Module\Apartment\Domain\Model\Address\ValueObject\Latitude;
+use App\Module\Apartment\Domain\Model\Address\ValueObject\Longitude;
+use App\Module\Apartment\Domain\Model\Address\ValueObject\ZIPCode;
 use App\Module\Common\Domain\ValueObject\NotEmptyString;
 use App\Module\Common\Domain\ValueObject\UUID;
 

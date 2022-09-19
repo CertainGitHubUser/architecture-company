@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Module\Apartment\Domain\Model\Address;
+namespace App\Module\Apartment\Domain\Model\Address\ValueObject;
 
 use App\Module\Apartment\Domain\Model\Address\Exception\InvalidLatitudeException;
 use App\Module\Common\Domain\Utils\GetDigitsNumberAfterDecimalUtil;

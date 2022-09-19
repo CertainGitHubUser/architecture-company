@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Tests\Utils\RequestDataGenerator;
 
-class ApartmentAddressDataGenerator
+final class ApartmentAddressDataGenerator
 {
     public static function generate(int $apartmentId, array $addresses): array
     {

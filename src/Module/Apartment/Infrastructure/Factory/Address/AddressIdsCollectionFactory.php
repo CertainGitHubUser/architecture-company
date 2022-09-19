@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Infrastructure\Factory\Address;
 
-use App\Module\Apartment\Domain\Model\Address\AddressId;
 use App\Module\Apartment\Domain\Model\Address\AddressIdsCollection;
 use App\Module\Apartment\Domain\Model\Address\Factory\AddressIdsCollectionFactoryInterface;
+use App\Module\Apartment\Domain\Model\Address\ValueObject\AddressId;
 
 final class AddressIdsCollectionFactory implements AddressIdsCollectionFactoryInterface
 {

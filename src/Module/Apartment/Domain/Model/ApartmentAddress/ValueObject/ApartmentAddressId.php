@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Module\Apartment\Domain\Model\ApartmentAddress;
+namespace App\Module\Apartment\Domain\Model\ApartmentAddress\ValueObject;
 
 use App\Module\Apartment\Domain\Model\ApartmentAddress\Exception\InvalidApartmentAddressIdException;
 use App\Module\Common\Domain\ValueObject\AbstractValueObject;

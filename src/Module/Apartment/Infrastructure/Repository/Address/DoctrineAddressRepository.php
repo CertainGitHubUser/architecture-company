@@ -7,35 +7,20 @@ use App\Module\Apartment\Domain\Model\Address\Address;
 use App\Module\Apartment\Domain\Model\Address\AddressIdsCollection;
 use App\Module\Apartment\Domain\Model\Address\Exception\AddressesWithExposedIdsNotFoundException;
 use App\Module\Apartment\Domain\Model\Address\Exception\AddressesWithIdsNotFoundException;
-use App\Module\Apartment\Domain\Model\Address\Factory\AddressesCollectionFactoryInterface;
-use App\Module\Apartment\Domain\Model\Address\Factory\AddressFactoryInterface;
 use App\Module\Apartment\Domain\Model\Address\Repository\AddressRepositoryInterface;
 use App\Module\Apartment\Infrastructure\Entity\AddressEntity;
 use App\Module\Apartment\Infrastructure\Factory\Address\AddressIdsCollectionFactory;
 use App\Module\Common\Domain\Factory\UUIDsCollectionFactory;
 use App\Module\Common\Domain\ValueObject\UUIDsCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ObjectRepository;
 
 final class DoctrineAddressRepository implements AddressRepositoryInterface
 {
     private EntityManagerInterface $manager;
-    private ObjectRepository $doctrineRepository;
 
-    private AddressFactoryInterface $addressFactory;
-    private AddressesCollectionFactoryInterface $addressesCollectionFactory;
-
-    public function __construct(
-        EntityManagerInterface              $manager,
-        AddressFactoryInterface             $addressFactory,
-        AddressesCollectionFactoryInterface $addressesCollectionFactory
-    )
+    public function __construct(EntityManagerInterface $manager)
     {
         $this->manager = $manager;
-        $this->doctrineRepository = $this->manager->getRepository(AddressEntity::class);
-
-        $this->addressFactory = $addressFactory;
-        $this->addressesCollectionFactory = $addressesCollectionFactory;
     }
 
     public function getExposedIdsByIds(AddressIdsCollection $addressIdsCollection): UUIDsCollection

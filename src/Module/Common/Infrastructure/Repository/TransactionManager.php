@@ -32,6 +32,6 @@ final class TransactionManager implements TransactionManagerInterface
 
     public function transactional(callable $transaction): void
     {
-        $this->entityManager->transactional($transaction);
+        $this->entityManager->wrapInTransaction($transaction);
     }
 }

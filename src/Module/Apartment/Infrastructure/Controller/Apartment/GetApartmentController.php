@@ -1,13 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Module\Apartment\Application\Controller\Apartment;
+namespace App\Module\Apartment\Infrastructure\Controller\Apartment;
 
 use App\Module\Apartment\Application\Facade\ApartmentFacade;
 use App\Module\Apartment\Domain\Model\Apartment\Exception\Repository\ApartmentWithExposedIdNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**

@@ -4,21 +4,16 @@ declare(strict_types=1);
 namespace App\Module\Apartment\Application\UseCase\Room\EditApartmentRooms;
 
 use App\Module\Apartment\Application\DTO\Room\EditApartmentRoomsRawDTO;
-use App\Module\Apartment\Application\Facade\ApartmentFacade;
-use App\Module\Apartment\Domain\Model\Room\Factory\RoomsCollectionFactoryInterface;
 use App\Module\Apartment\Domain\Model\Room\Repository\RoomRepositoryInterface;
 use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
 use App\Module\Common\Domain\ValueObject\UUID;
 
 final class EditApartmentRooms
 {
-    private RoomsCollectionFactoryInterface $collectionFactory;
-
     private RoomRepositoryInterface $repository;
 
-    public function __construct(RoomsCollectionFactoryInterface $collectionFactory, RoomRepositoryInterface $repository)
+    public function __construct(RoomRepositoryInterface $repository)
     {
-        $this->collectionFactory = $collectionFactory;
         $this->repository = $repository;
     }
 
@@ -33,10 +28,10 @@ final class EditApartmentRooms
 
     private function updateRoomsCollection(RoomsCollection $roomsCollection, EditApartmentRoomsRawDTO $dto): void
     {
-        foreach ($dto->rooms as $editModel) {
-            $roomsCollection->getByExposedId(new UUID($editModel->exposedId))
+        foreach ($dto->rooms as $room) {
+            $roomsCollection->getByExposedId(new UUID($room->exposedId))
                 ->getDTO()
-                ->update($editModel);
+                ->update($room);
         }
     }
 }

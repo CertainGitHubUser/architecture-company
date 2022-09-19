@@ -3,7 +3,7 @@
 namespace App\Module\Apartment\Domain\Model\Room\Factory;
 
 use App\Module\Apartment\Application\DTO\Room\ApartmentRoomsRawDTO;
-use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
 use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
 
 interface RoomsCollectionFactoryInterface

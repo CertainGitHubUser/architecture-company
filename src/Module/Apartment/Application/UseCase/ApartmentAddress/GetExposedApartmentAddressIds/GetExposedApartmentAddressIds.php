@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Module\Apartment\Application\UseCase\ApartmentAddress\GetExposedApartmentAddressIds;
 
 use App\Module\Apartment\Domain\Model\Address\Repository\AddressRepositoryInterface;
-use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\Repository\ApartmentAddressRepositoryInterface;
 use App\Module\Common\Domain\ValueObject\UUIDsCollection;
 

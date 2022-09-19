@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace App\Module\Apartment\Infrastructure\Entity;
 
 use App\Module\Apartment\Application\DTO\Room\EditApartmentRoomRawDTO;
-use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
-use App\Module\Apartment\Domain\Model\Common\Square;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
+use App\Module\Apartment\Domain\Model\Common\ValueObject\Square;
 use App\Module\Apartment\Domain\Model\Room\RoomDTOInterface;
-use App\Module\Apartment\Domain\Model\Room\RoomId;
-use App\Module\Apartment\Domain\Model\Room\RoomType;
+use App\Module\Apartment\Domain\Model\Room\ValueObject\RoomId;
+use App\Module\Apartment\Domain\Model\Room\ValueObject\RoomType;
 use App\Module\Common\Domain\ValueObject\UUID;
 use App\Module\Common\Infrastructure\Entity\EntityTrait;
 use Doctrine\ORM\Mapping as ORM;

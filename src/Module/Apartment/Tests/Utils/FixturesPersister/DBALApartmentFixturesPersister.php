@@ -72,7 +72,7 @@ final class DBALApartmentFixturesPersister
         }
     }
 
-    public function addApartmentAddresses(array $apartmentAddresses)
+    public function addApartmentAddresses(array $apartmentAddresses): void
     {
         foreach ($apartmentAddresses as $apartmentAddress) {
             $this->connection->insert('apartment_address', $apartmentAddress);
@@ -99,12 +99,15 @@ final class DBALApartmentFixturesPersister
     public function createApartmentRoomByConfigAndApartmentId(int $apartmentId, array $config): void
     {
         RoomDataGenerator::fromApartmentConfigAndApartmentId($apartmentId, $config);
+
         $result = [];
+
         foreach ($config as $item) {
             $item['id'] = mt_rand(1, 3_000_000);
             $item['apartment_id'] = $apartmentId;
             $result[] = $item;
         }
+
         $this->addApartmentRooms($result);
     }
 
@@ -174,7 +177,7 @@ final class DBALApartmentFixturesPersister
         return $addresses;
     }
 
-    private function createApartmentAddresses(int $apartmentId, array $exposedAddressIds)
+    private function createApartmentAddresses(int $apartmentId, array $exposedAddressIds): void
     {
         $addressIds = $this->getAddressIdsByExposedIds($exposedAddressIds);
         $this->addApartmentAddresses(ApartmentAddressDataGenerator::generate($apartmentId, $addressIds));

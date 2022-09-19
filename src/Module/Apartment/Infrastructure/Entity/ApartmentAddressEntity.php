@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace App\Module\Apartment\Infrastructure\Entity;
 
-use App\Module\Apartment\Domain\Model\Address\AddressId;
-use App\Module\Apartment\Domain\Model\Apartment\ApartmentId;
+use App\Module\Apartment\Domain\Model\Address\ValueObject\AddressId;
+use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
 use App\Module\Apartment\Domain\Model\ApartmentAddress\ApartmentAddressDTOInterface;
-use App\Module\Apartment\Domain\Model\ApartmentAddress\ApartmentAddressId;
+use App\Module\Apartment\Domain\Model\ApartmentAddress\ValueObject\ApartmentAddressId;
 use Doctrine\ORM\Mapping as ORM;
-// TODO create apartmentid  addressid unique index
+
 /**
  * @ORM\Entity()
  * @ORM\Table(name="`apartment_address`")
