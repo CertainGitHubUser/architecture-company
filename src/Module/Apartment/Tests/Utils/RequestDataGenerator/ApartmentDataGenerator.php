@@ -23,7 +23,9 @@ final class ApartmentDataGenerator
             'currency' => $source['currency'] ?? 'USD',
             'has_gas' => (int)($source['hasGas'] ?? true),
             'has_water' => (int)($source['hasWater'] ?? false),
-            'has_hood' => (int)($source['hasHood'] ?? false)
+            'has_hood' => (int)($source['hasHood'] ?? false),
+            'title' => $source['title'] ?? bin2hex(random_bytes(10)),
+            'description' => $source['title'] ?? bin2hex(random_bytes(15))
         ];
     }
 }

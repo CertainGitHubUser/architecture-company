@@ -32,7 +32,9 @@ Feature: API should edit apartment by id
           "currency": "USD",
           "has_gas": true,
           "has_water": true,
-          "has_hood": true
+          "has_hood": true,
+          "title": "title",
+          "description": "description"
       },
       "rooms": [
           {
@@ -75,7 +77,9 @@ Feature: API should edit apartment by id
           "currency": "USD",
           "has_gas": false,
           "has_water": false,
-          "has_hood": false
+          "has_hood": false,
+          "title": "title123",
+          "description": "descriptionabsdefg"
       },
       "rooms": [
           {
@@ -131,6 +135,8 @@ Feature: API should edit apartment by id
       "hasGas": false,
       "hasWater": false,
       "hasHood": false,
+      "title": "title123",
+      "description": "descriptionabsdefg",
       "addresses": [
         [
           {
@@ -165,7 +171,9 @@ Feature: API should edit apartment by id
           "currency": "USD",
           "has_gas": true,
           "has_water": true,
-          "has_hood": true
+          "has_hood": true,
+          "title": "title",
+          "description": "description"
       },
       "rooms": [],
       "addresses": [
@@ -192,7 +200,9 @@ Feature: API should edit apartment by id
           "currency": "USD",
           "has_gas": false,
           "has_water": false,
-          "has_hood": false
+          "has_hood": false,
+          "title": "title123",
+          "description": "descriptionabsdefg"
       },
       "rooms": []
     }
@@ -216,6 +226,8 @@ Feature: API should edit apartment by id
       "hasGas": false,
       "hasWater": false,
       "hasHood": false,
+      "title": "title123",
+      "description": "descriptionabsdefg",
       "addresses": [
         [
           {

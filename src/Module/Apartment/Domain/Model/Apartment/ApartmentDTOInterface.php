@@ -2,7 +2,6 @@
 
 namespace App\Module\Apartment\Domain\Model\Apartment;
 
-use App\Module\Apartment\Application\DTO\Apartment\ApartmentRawDTO;
 use App\Module\Apartment\Application\DTO\Apartment\EditApartmentRawDTO;
 use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentId;
 use App\Module\Apartment\Domain\Model\Apartment\ValueObject\ApartmentType;
@@ -10,9 +9,11 @@ use App\Module\Apartment\Domain\Model\Apartment\ValueObject\HeatingType;
 use App\Module\Apartment\Domain\Model\Common\ValueObject\Square;
 use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
 use App\Module\Common\Domain\ValueObject\BuiltIn;
+use App\Module\Common\Domain\ValueObject\Text;
 use App\Module\Common\Domain\ValueObject\UnsignedInt;
 use App\Module\Common\Domain\ValueObject\UUID;
 use App\Module\Common\Domain\ValueObject\UUIDsCollection;
+use App\Module\Common\Domain\ValueObject\VARCHAR;
 use App\Module\Price\Domain\Model\Currency\Currency;
 use App\Module\Price\Domain\Model\Price\Price;
 use App\Module\User\Domain\Model\User\UserId;
@@ -59,7 +60,7 @@ interface ApartmentDTOInterface
 
     public function getRentalPrice(): ?Price;
 
-    public function setRentalPrice($price = null): void;
+    public function setRentalPrice($price): void;
 
     public function getCurrency(): Currency;
 
@@ -80,4 +81,12 @@ interface ApartmentDTOInterface
     public function setHasHood($hasHood): void;
 
     public function update(EditApartmentRawDTO $dto): void;
+
+    public function getTitle(): VARCHAR;
+
+    public function setTitle($title): void;
+
+    public function getDescription(): ?Text;
+
+    public function setDescription($description): void;
 }

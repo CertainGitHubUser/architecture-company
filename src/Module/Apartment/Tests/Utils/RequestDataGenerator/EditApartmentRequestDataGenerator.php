@@ -22,7 +22,9 @@ final class EditApartmentRequestDataGenerator
             "addresses" => $apartmentData['addresses'] ?? [],
             "hasGas" => $apartmentData['apartment']['has_gas'],
             "hasWater" => $apartmentData['apartment']['has_water'],
-            "hasHood" => $apartmentData['apartment']['has_hood']
+            "hasHood" => $apartmentData['apartment']['has_hood'],
+            'title' => $apartmentData['apartment']['title'] ?? bin2hex(random_bytes(10)),
+            'description' => $apartmentData['apartment']['description'] ?? bin2hex(random_bytes(15))
         ]);
     }
 

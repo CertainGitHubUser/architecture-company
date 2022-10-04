@@ -31,7 +31,9 @@ Feature: API should delete apartment by id
           "currency": "USD",
           "has_gas": true,
           "has_water": true,
-          "has_hood": true
+          "has_hood": true,
+          "title": "title",
+          "description": "description"
       },
       "rooms": [
           {
@@ -78,7 +80,9 @@ Feature: API should delete apartment by id
           "currency": "USD",
           "has_gas": true,
           "has_water": true,
-          "has_hood": true
+          "has_hood": true,
+          "title": "title",
+          "description": "description"
       },
       "rooms": [],
       "addresses": [

@@ -9,9 +9,11 @@ use App\Module\Apartment\Domain\Model\Apartment\ValueObject\HeatingType;
 use App\Module\Apartment\Domain\Model\Common\ValueObject\Square;
 use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
 use App\Module\Common\Domain\ValueObject\BuiltIn;
+use App\Module\Common\Domain\ValueObject\Text;
 use App\Module\Common\Domain\ValueObject\UnsignedInt;
 use App\Module\Common\Domain\ValueObject\UUID;
 use App\Module\Common\Domain\ValueObject\UUIDsCollection;
+use App\Module\Common\Domain\ValueObject\VARCHAR;
 use App\Module\Price\Domain\Model\Currency\Currency;
 use App\Module\Price\Domain\Model\Price\Price;
 use App\Module\User\Domain\Model\User\UserId;
@@ -110,6 +112,19 @@ final class Apartment implements \JsonSerializable
         return $this->dto->hasHood();
     }
 
+    public function title(): VARCHAR
+    {
+        return $this->dto->getTitle();
+    }
+
+    public function description(): ?Text
+    {
+        return $this->dto->getDescription();
+    }
+
+    /**
+     * @return array
+     */
     public function jsonSerialize()
     {
         return [
@@ -128,6 +143,8 @@ final class Apartment implements \JsonSerializable
             'hasWater' => $this->hasWater(),
             'hasHood' => $this->hasHood(),
             'addresses' => $this->addresses(),
+            'title' => $this->title()->value(),
+            'description' => $this->description()->value(),
         ];
     }
 }

@@ -33,6 +33,10 @@ final class EditApartmentRawDTO
 
     public bool $hasHood;
 
+    public string $title;
+
+    public string $description;
+
     public array $rooms;
 
     public static function initialize(array $request): EditApartmentRawDTO
