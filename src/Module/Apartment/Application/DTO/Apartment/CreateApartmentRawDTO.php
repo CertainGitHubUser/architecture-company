@@ -35,6 +35,10 @@ final class CreateApartmentRawDTO
 
     public array $addresses;
 
+    public string $title;
+
+    public string $description;
+
     public array $rooms;
 
     public static function initialize(array $request): CreateApartmentRawDTO

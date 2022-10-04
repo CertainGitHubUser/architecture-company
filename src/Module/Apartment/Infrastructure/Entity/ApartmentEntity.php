@@ -13,9 +13,11 @@ use App\Module\Apartment\Domain\Model\Apartment\ValueObject\HeatingType;
 use App\Module\Apartment\Domain\Model\Common\ValueObject\Square;
 use App\Module\Apartment\Domain\Model\Room\RoomsCollection;
 use App\Module\Common\Domain\ValueObject\BuiltIn;
+use App\Module\Common\Domain\ValueObject\Text;
 use App\Module\Common\Domain\ValueObject\UnsignedInt;
 use App\Module\Common\Domain\ValueObject\UUID;
 use App\Module\Common\Domain\ValueObject\UUIDsCollection;
+use App\Module\Common\Domain\ValueObject\VARCHAR;
 use App\Module\Common\Infrastructure\Entity\EntityTrait;
 use App\Module\Price\Domain\Model\Currency\Currency;
 use App\Module\Price\Domain\Model\Price\Price;
@@ -101,6 +103,16 @@ class ApartmentEntity implements ApartmentDTOInterface
      * @ORM\Column(type="boolean")
      */
     private $hasHood;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
 
     private UUIDsCollection $_exposedAddressIds;
 
@@ -220,9 +232,9 @@ class ApartmentEntity implements ApartmentDTOInterface
         return Price::fromString($this->rentalPrice);
     }
 
-    public function setRentalPrice($price = null): void
+    public function setRentalPrice($price): void
     {
-        $this->rentalPrice = Price::fromString($price)->value();
+        $this->rentalPrice = empty($price) ? Price::fromString($price)->value() : $price;
     }
 
     public function getCurrency(): Currency
@@ -272,5 +284,25 @@ class ApartmentEntity implements ApartmentDTOInterface
     public function setHasHood($hasHood): void
     {
         $this->hasHood = (bool)$hasHood;
+    }
+
+    public function getTitle(): VARCHAR
+    {
+        return VARCHAR::fromString($this->title);
+    }
+
+    public function setTitle($title): void
+    {
+        $this->title = VARCHAR::fromString($title)->value();
+    }
+
+    public function getDescription(): ?Text
+    {
+        return empty($this->description) ? null : Text::fromString($this->description);
+    }
+
+    public function setDescription($description): void
+    {
+        $this->description = Text::fromString($description)->value();
     }
 }
